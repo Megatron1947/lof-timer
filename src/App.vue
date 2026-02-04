@@ -47,13 +47,13 @@
                 暂停
             </button>
             <button class="btn btn-ghost min-w-24" @click="resetRuntime">重置</button>
-            <button class="btn btn-ghost min-w-24" @click="showSettings = true">设置</button>
+            <button class="btn btn-ghost min-w-24">设置</button>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, ref} from 'vue'
+import {computed, onMounted} from 'vue'
 import {storeToRefs} from 'pinia'
 import {useTimerStore} from '@/stores/timerStore'
 import {TimerStatus} from '@/types/timer'
@@ -70,8 +70,6 @@ const {
     totalCycles,
     currentCycle,
 } = storeToRefs(timerStore)
-
-const showSettings = ref(false)
 
 const progress = computed(() => {
     if (remainingSeconds.value <= 0) {
