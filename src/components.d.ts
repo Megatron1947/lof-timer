@@ -11,11 +11,5 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    NButton: typeof import('naive-ui')['NButton']
-    NConfigProvider: typeof import('naive-ui')['NConfigProvider']
-    NDrawer: typeof import('naive-ui')['NDrawer']
-    NDrawerContent: typeof import('naive-ui')['NDrawerContent']
-    NProgress: typeof import('naive-ui')['NProgress']
-    NSlider: typeof import('naive-ui')['NSlider']
   }
 }

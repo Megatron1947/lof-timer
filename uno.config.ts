@@ -1,6 +1,12 @@
-import {defineConfig, presetAttributify, presetWind4} from 'unocss'
+import {defineConfig, presetAttributify} from 'unocss'
+import presetWind4 from '@unocss/preset-wind4'
 
 export default defineConfig({
-    presets: [presetAttributify(), presetWind4()],
+    content: {
+        pipeline: {
+            include: ['src/**/*.{js,ts,vue}'],
+        },
+    },
+    presets: [presetWind4(), presetAttributify()],
     rules: [],
 })

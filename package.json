@@ -20,11 +20,12 @@
         "vue": "^3.5.27"
     },
     "devDependencies": {
+        "@ameinhardt/unocss-preset-daisy": "^1.1.8",
         "@tauri-apps/cli": "^2.10.0",
         "@types/node": "^25.2.0",
         "@unocss/preset-wind4": "^66.6.0",
         "@vitejs/plugin-vue": "^5.2.4",
-        "naive-ui": "^2.43.2",
+        "daisyui": "^5.5.17",
         "prettier": "^3.8.1",
         "terser": "^5.46.0",
         "typescript": "~5.6.3",
