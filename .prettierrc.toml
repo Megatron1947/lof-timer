@@ -1,0 +1,24 @@
+# 对象或数组最后一个元素后是否添加逗号
+trailingComma = "all"
+# 缩进使用的空格数
+tabWidth = 4
+# 是否使用制表符(Tab)进行缩进, false表示使用空格
+useTabs = false
+# 代码行最大宽度, 超过此长度将自动换行
+printWidth = 96
+# 是否在语句末尾添加分号, false表示不添加
+semi = false
+# 是否使用单引号而非双引号
+singleQuote = true
+# 对象大括号内部是否添加空格, false表示不添加
+bracketSpacing = false
+# 将 `>` 放在同一行而不是单独一行(适用于 JSX/HTML 标签)
+bracketSameLine = true
+# 箭头函数只有一个参数时是否添加圆括号
+arrowParens = "always"
+# 运算符位置
+experimentalOperatorPosition = "start"
+# 行尾格式
+endOfLine = "lf"
+# 每行一个属性
+singleAttributePerLine = false

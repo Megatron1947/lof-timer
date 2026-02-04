@@ -1,0 +1,54 @@
+# Windows 批处理脚本
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+# 图片类
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.bmp binary
+*.ico binary
+*.webp binary
+# svg本质是文本, 但作为资源文件统一按二进制处理
+*.svg binary
+
+# 压缩包/安装包类
+*.zip binary
+*.rar binary
+*.7z binary
+*.tar.gz binary
+
+# 编译产物/库文件类
+*.jar binary
+*.war binary
+*.class binary
+*.dll binary
+*.exe binary
+*.so binary
+*.dylib binary
+*.obj binary
+*.lib binary
+*.pdb binary
+
+# 通用规则: 所有未单独指定的文本文件默认 LF
+/mvnw text eol=lf
+* text=auto eol=lf
+
+# 代码/配置类文件
+*.java text eol=lf
+*.xml text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.properties text eol=lf
+*.gradle text eol=lf
+*.groovy text eol=lf
+*.kt text eol=lf
+
+*.sh text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.ts text eol=lf
+*.js text eol=lf
+*.css text eol=lf
+*.html text eol=lf
