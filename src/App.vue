@@ -228,11 +228,11 @@ watchEffect(() => {
     overflow: hidden;
 }
 
-.progress-circle :deep(.n-progress),
-.progress-circle :deep(.n-progress-content),
-.progress-circle :deep(.n-progress-graph),
-.progress-circle :deep(.n-progress-graph-circle),
-.progress-circle :deep(svg) {
+::v-deep(.n-progress),
+::v-deep(.n-progress-content),
+::v-deep(.n-progress-graph),
+::v-deep(.n-progress-graph-circle),
+::v-deep(svg) {
     width: 100% !important;
     height: 100% !important;
 }
