@@ -75,7 +75,7 @@ const showSettings = ref(false)
 
 const progress = computed(() => {
     if (remainingSeconds.value <= 0) {
-        return status.value === TimerStatus.READY || TimerStatus.FINISHED ? 0 : 100
+        return 0
     }
     const totalSeconds =
         status.value === TimerStatus.FOCUSING
@@ -88,7 +88,9 @@ const progress = computed(() => {
 })
 
 const cycleProgress = computed(() => {
-    if (totalCycles.value <= 0) return 0
+    if (totalCycles.value <= 0) {
+        return 0
+    }
     const current = Math.min(currentCycle.value, totalCycles.value)
     return Math.round((current / totalCycles.value) * 100)
 })
