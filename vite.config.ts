@@ -1,13 +1,25 @@
 import {defineConfig} from 'vite'
 import vue from '@vitejs/plugin-vue'
 import UnoCSS from 'unocss/vite'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
 import path from 'path'
 
 const host = process.env.TAURI_DEV_HOST
 
 // https://vite.dev/config/
 export default defineConfig(async () => ({
-    plugins: [vue(), UnoCSS()],
+    plugins: [
+        vue(),
+        UnoCSS(),
+        AutoImport({
+            imports: ['vue'],
+            dts: 'src/auto-imports.d.ts',
+        }),
+        Components({
+            dts: 'src/components.d.ts',
+        }),
+    ],
     resolve: {
         alias: {
             '@': path.resolve(__dirname, 'src'),
