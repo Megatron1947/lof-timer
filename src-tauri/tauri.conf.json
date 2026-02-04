@@ -14,8 +14,9 @@
             {
                 "label": "main",
                 "title": "lof-timer",
-                "width": 800,
-                "height": 600
+                "width": 380,
+                "height": 680,
+                "resizable": false
             }
         ],
         "security": {
