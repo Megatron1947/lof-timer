@@ -4,7 +4,8 @@
         <div class="drawer-content">
             <div class="min-h-screen bg-base-200 flex flex-col items-center justify-center p-4">
                 <!-- 状态文字 -->
-                <div class="text-base-content/80 text-lg font-medium mb-8">
+                <div
+                    class="text-base-content/80 text-lg font-medium mb-8 transition-all duration-300">
                     {{ status }}
                 </div>
 
@@ -28,7 +29,8 @@
                             aria-valuemax="100">
                             <!-- 中心双行文本 -->
                             <div class="flex flex-col items-center">
-                                <div class="flex items-center text-7xl font-bold">
+                                <div
+                                    class="flex items-center text-7xl font-bold transition-all duration-300">
                                     <span class="countdown font-mono">
                                         <span
                                             :style="{
@@ -59,7 +61,9 @@
                                         >
                                     </span>
                                 </div>
-                                <span class="text-4xl opacity-60">{{ cycleText }}</span>
+                                <span class="text-4xl opacity-60 transition-all duration-300">{{
+                                    cycleText
+                                }}</span>
                             </div>
                         </div>
                     </div>
@@ -69,16 +73,22 @@
                 <div class="mt-8 flex gap-4">
                     <button
                         v-if="!isTimerRunning"
-                        class="btn btn-primary min-w-24"
+                        class="btn btn-primary min-w-24 h-12 transition-all duration-300"
                         @click="startTimer">
                         {{ status === '暂停' ? '继续' : '启动' }}
                     </button>
-                    <button v-else class="btn btn-warning min-w-24" @click="pauseTimer">
+                    <button
+                        v-else
+                        class="btn btn-warning min-w-24 h-12 transition-all duration-300"
+                        @click="pauseTimer">
                         暂停
                     </button>
-                    <button class="btn btn-ghost min-w-24" @click="resetRuntime">重置</button>
-                    <!--                    <button class="btn btn-ghost min-w-24">设置</button>-->
-                    <label for="drawer" class="drawer-button btn btn-primary">设置</label>
+                    <button
+                        class="btn btn-ghost min-w-24 h-12 transition-all duration-300"
+                        @click="resetRuntime">
+                        重置
+                    </button>
+                    <label for="drawer" class="drawer-button btn btn-secondary min-w-24 h-12 transition-all duration-300">设置</label>
                 </div>
             </div>
         </div>
@@ -86,7 +96,9 @@
             <label for="drawer" aria-label="close sidebar" class="drawer-overlay"></label>
             <div class="bg-base-200 w-80 p-6 min-h-screen">
                 <div>
-                    <h2 class="text-xl font-bold mb-6 text-primary">设置</h2>
+                    <h2 class="text-xl font-bold mb-6 text-primary transition-all duration-300">
+                        设置
+                    </h2>
                 </div>
                 <!-- 专注时间设置 -->
                 <div class="mb-6">
@@ -135,7 +147,10 @@
                     <div class="flex justify-between items-center mb-2">
                         <label class="text-sm font-medium">主题</label>
                     </div>
-                    <select class="select" @change="updateTheme" :value="currentTheme">
+                    <select
+                        class="select select-primary transition-all duration-300"
+                        @change="updateTheme"
+                        :value="currentTheme">
                         <option v-for="t in daisyThemes" :key="t.name" :value="t.name">
                             {{ t.label }}
                         </option>
@@ -143,7 +158,9 @@
                 </div>
                 <!-- 重置按钮 -->
                 <div class="mt-8">
-                    <button class="btn btn-ghost w-full" @click="resetConfig">
+                    <button
+                        class="btn btn-ghost w-full hover:btn-primary/10 transition-all duration-300"
+                        @click="resetConfig">
                         恢复默认设置
                     </button>
                 </div>
