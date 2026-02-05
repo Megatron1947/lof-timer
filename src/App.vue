@@ -84,6 +84,12 @@
                         暂停
                     </button>
                     <button
+                        v-if="isTimerRunning"
+                        class="btn btn-info min-w-24 h-12 transition-all duration-300"
+                        @click="fastForwardTimer">
+                        快速结束
+                    </button>
+                    <button
                         class="btn btn-dash min-w-24 h-12 transition-all duration-300"
                         @click="resetRuntime">
                         重置
@@ -183,6 +189,7 @@ import {Window} from '@tauri-apps/api/window'
 const timerStore = useTimerStore()
 const {
     status,
+    previousStatus,
     formattedTime,
     cycleText,
     isTimerRunning,
@@ -198,10 +205,12 @@ const progress = computed(() => {
     if (remainingSeconds.value <= 0) {
         return 0
     }
+    const currentStatus =
+        status.value === TimerStatus.PAUSED ? previousStatus.value : status.value
     const totalSeconds =
-        status.value === TimerStatus.FOCUSING
+        currentStatus === TimerStatus.FOCUSING
             ? focusTime.value * 60
-            : status.value === TimerStatus.BREAKING
+            : currentStatus === TimerStatus.BREAKING
               ? breakTime.value * 60
               : focusTime.value * 60
     const elapsed = totalSeconds - remainingSeconds.value
@@ -246,6 +255,7 @@ const pauseTimer = timerStore.pauseTimer
 const resetRuntime = timerStore.resetRuntime
 const resetConfig = timerStore.resetConfig
 const saveConfig = timerStore.saveConfig
+const fastForwardTimer = timerStore.fastForwardTimer
 
 // 更新专注时间
 const updateFocusTime = (event: Event) => {

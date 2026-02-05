@@ -287,6 +287,16 @@ export const useTimerStore = defineStore('timer', () => {
         saveConfig({theme})
     }
 
+    /**
+     * 快速结束当前阶段: 将剩余时间设置为1秒, 快速触发状态转换
+     * 仅运行状态(专注/休息)可调用
+     */
+    const fastForwardTimer = () => {
+        if (isTimerRunning.value) {
+            remainingSeconds.value = 1
+        }
+    }
+
     return {
         // 配置状态
         focusTime,
@@ -312,5 +322,6 @@ export const useTimerStore = defineStore('timer', () => {
         resetRuntime,
         onAllCycleFinished,
         setTheme,
+        fastForwardTimer,
     }
 })
