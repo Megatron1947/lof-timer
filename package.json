@@ -22,7 +22,6 @@
         "vue": "^3.5.27"
     },
     "devDependencies": {
-        "@0x-jerry/unocss-preset-daisyui": "^0.2.3",
         "@tauri-apps/cli": "^2.10.0",
         "@types/node": "^25.2.0",
         "@unocss/preset-wind4": "^66.6.0",

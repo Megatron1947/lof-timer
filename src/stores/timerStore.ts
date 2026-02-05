@@ -5,19 +5,61 @@ import {TimerConfig, TimerStatus} from '@/types/timer'
 // localStorage 持久化的 key
 const STORAGE_KEY = 'lof-timer-config'
 // 默认配置
-const DEFAULT_CONFIG: Readonly<TimerConfig> = {
+const DEFAULT_CONFIG: Readonly<TimerConfig & {theme: string}> = {
     // 专注时间(分钟)
     focusTime: 25,
     // 休息时间(分钟)
     breakTime: 5,
     // 总循环次数
     totalCycles: 4,
+    // 主题
+    theme: 'light',
 }
 
 export const useTimerStore = defineStore('timer', () => {
     const focusTime = ref(DEFAULT_CONFIG.focusTime)
     const breakTime = ref(DEFAULT_CONFIG.breakTime)
     const totalCycles = ref(DEFAULT_CONFIG.totalCycles)
+    const currentTheme = ref(DEFAULT_CONFIG.theme)
+
+    // 主题列表
+    const themes = ref([
+        'light',
+        'dark',
+        'cupcake',
+        'bumblebee',
+        'emerald',
+        'corporate',
+        'synthwave',
+        'retro',
+        'cyberpunk',
+        'valentine',
+        'halloween',
+        'garden',
+        'forest',
+        'aqua',
+        'lofi',
+        'pastel',
+        'fantasy',
+        'wireframe',
+        'black',
+        'luxury',
+        'dracula',
+        'cmyk',
+        'autumn',
+        'business',
+        'acid',
+        'lemonade',
+        'night',
+        'coffee',
+        'winter',
+        'dim',
+        'nord',
+        'sunset',
+        'caramellatte',
+        'abyss',
+        'silk',
+    ])
 
     // 当前状态
     const status = ref<TimerStatus>(TimerStatus.READY)
@@ -112,7 +154,9 @@ export const useTimerStore = defineStore('timer', () => {
             const storedConfig = localStorage.getItem(STORAGE_KEY)
             if (storedConfig) {
                 // 解析本地配置并校验合法性
-                const parsed = JSON.parse(storedConfig) as Partial<TimerConfig>
+                const parsed = JSON.parse(storedConfig) as Partial<
+                    TimerConfig & {theme: string}
+                >
                 focusTime.value = _validatePositiveNum(
                     parsed.focusTime,
                     DEFAULT_CONFIG.focusTime,
@@ -125,6 +169,7 @@ export const useTimerStore = defineStore('timer', () => {
                     parsed.totalCycles,
                     DEFAULT_CONFIG.totalCycles,
                 )
+                currentTheme.value = parsed.theme || DEFAULT_CONFIG.theme
             }
         } catch (e) {
             console.error('🍅 加载番茄时钟配置失败, 使用默认值: ', e)
@@ -137,11 +182,14 @@ export const useTimerStore = defineStore('timer', () => {
      * 保存配置: 更新配置并同步到 localStorage
      * @param newConfig 新的配置项(支持部分更新, 如仅修改focusTime)
      */
-    const saveConfig = (newConfig: Partial<TimerConfig>) => {
+    const saveConfig = (newConfig: Partial<TimerConfig & {theme: string}>) => {
         // 先校验并更新配置
         focusTime.value = _validatePositiveNum(newConfig.focusTime, focusTime.value)
         breakTime.value = _validatePositiveNum(newConfig.breakTime, breakTime.value)
         totalCycles.value = _validatePositiveNum(newConfig.totalCycles, totalCycles.value)
+        if (newConfig.theme) {
+            currentTheme.value = newConfig.theme
+        }
         // 同步到 localStorage
         try {
             localStorage.setItem(
@@ -150,6 +198,7 @@ export const useTimerStore = defineStore('timer', () => {
                     focusTime: focusTime.value,
                     breakTime: breakTime.value,
                     totalCycles: totalCycles.value,
+                    theme: currentTheme.value,
                 }),
             )
             console.log('🍅 番茄时钟配置保存成功')
@@ -239,11 +288,21 @@ export const useTimerStore = defineStore('timer', () => {
         // notify({ title: 'lof-timer', body: '所有循环完成！' })
     }
 
+    /**
+     * 设置主题
+     * @param theme 主题名称
+     */
+    const setTheme = (theme: string) => {
+        currentTheme.value = theme
+        saveConfig({theme})
+    }
+
     return {
         // 配置状态
         focusTime,
         breakTime,
         totalCycles,
+        currentTheme,
         // 运行时状态
         status,
         previousStatus,
@@ -262,5 +321,7 @@ export const useTimerStore = defineStore('timer', () => {
         pauseTimer,
         resetRuntime,
         onAllCycleFinished,
+        setTheme,
+        themes,
     }
 })
