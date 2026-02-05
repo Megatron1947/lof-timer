@@ -30,11 +30,33 @@
                             <div class="flex flex-col items-center">
                                 <div class="flex items-center text-7xl font-bold">
                                     <span class="countdown font-mono">
-                                        <span :style="{ '--value': Math.floor(remainingSeconds / 60), '--digits': 2 }" aria-live="polite">{{ Math.floor(remainingSeconds / 60).toString().padStart(2, '0') }}</span>
+                                        <span
+                                            :style="{
+                                                '--value': Math.floor(remainingSeconds / 60),
+                                                '--digits': 2,
+                                            }"
+                                            aria-live="polite"
+                                            >{{
+                                                Math.floor(remainingSeconds / 60)
+                                                    .toString()
+                                                    .padStart(2, '0')
+                                            }}</span
+                                        >
                                     </span>
                                     <span class="mx-2">:</span>
                                     <span class="countdown font-mono">
-                                        <span :style="{ '--value': remainingSeconds % 60, '--digits': 2 }" aria-live="polite">{{ (remainingSeconds % 60).toString().padStart(2, '0') }}</span>
+                                        <span
+                                            :style="{
+                                                '--value': remainingSeconds % 60,
+                                                '--digits': 2,
+                                            }"
+                                            aria-live="polite"
+                                            >{{
+                                                (remainingSeconds % 60)
+                                                    .toString()
+                                                    .padStart(2, '0')
+                                            }}</span
+                                        >
                                     </span>
                                 </div>
                                 <span class="text-4xl opacity-60">{{ cycleText }}</span>
@@ -190,9 +212,13 @@ const windowTitle = computed(() => {
 const appWindow = new Window('main')
 
 // 监听窗口标题变化并更新
-watch(windowTitle, async (newTitle) => {
-    await appWindow.setTitle(newTitle)
-}, { immediate: true })
+watch(
+    windowTitle,
+    async (newTitle) => {
+        await appWindow.setTitle(newTitle)
+    },
+    {immediate: true},
+)
 
 const startTimer = timerStore.startTimer
 const pauseTimer = timerStore.pauseTimer
