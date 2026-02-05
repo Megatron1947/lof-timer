@@ -54,6 +54,59 @@
         </div>
         <div class="drawer-side">
             <label for="drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+            <div class="bg-base-200 w-80 p-6 min-h-screen">
+                <div>
+                    <h2 class="text-xl font-bold mb-6 text-primary">设置</h2>
+                </div>
+                <!-- 专注时间设置 -->
+                <div class="mb-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="text-sm font-medium">专注时间</label>
+                        <span class="text-sm font-semibold">{{ focusTime }} 分钟</span>
+                    </div>
+                    <input
+                        type="range"
+                        min="1"
+                        max="60"
+                        :value="focusTime"
+                        class="range range-primary"
+                        @input="updateFocusTime($event)" />
+                </div>
+                <!-- 休息时间设置 -->
+                <div class="mb-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="text-sm font-medium">休息时间</label>
+                        <span class="text-sm font-semibold">{{ breakTime }} 分钟</span>
+                    </div>
+                    <input
+                        type="range"
+                        min="1"
+                        max="15"
+                        :value="breakTime"
+                        class="range range-primary"
+                        @input="updateBreakTime($event)" />
+                </div>
+                <!-- 循环次数设置 -->
+                <div class="mb-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="text-sm font-medium">循环次数</label>
+                        <span class="text-sm font-semibold">{{ totalCycles }} 次</span>
+                    </div>
+                    <input
+                        type="range"
+                        min="1"
+                        max="10"
+                        :value="totalCycles"
+                        class="range range-primary"
+                        @input="updateTotalCycles($event)" />
+                </div>
+                <!-- 重置按钮 -->
+                <div class="mt-8">
+                    <button class="btn btn-ghost w-full" @click="resetConfig">
+                        恢复默认设置
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -102,6 +155,29 @@ const cycleProgress = computed(() => {
 const startTimer = timerStore.startTimer
 const pauseTimer = timerStore.pauseTimer
 const resetRuntime = timerStore.resetRuntime
+const resetConfig = timerStore.resetConfig
+const saveConfig = timerStore.saveConfig
+
+// 更新专注时间
+const updateFocusTime = (event: Event) => {
+    const target = event.target as HTMLInputElement
+    const value = parseInt(target.value)
+    saveConfig({focusTime: value})
+}
+
+// 更新休息时间
+const updateBreakTime = (event: Event) => {
+    const target = event.target as HTMLInputElement
+    const value = parseInt(target.value)
+    saveConfig({breakTime: value})
+}
+
+// 更新循环次数
+const updateTotalCycles = (event: Event) => {
+    const target = event.target as HTMLInputElement
+    const value = parseInt(target.value)
+    saveConfig({totalCycles: value})
+}
 
 onMounted(() => {
     timerStore.initConfig()
