@@ -5,7 +5,7 @@
             <div class="min-h-screen bg-base-200 flex flex-col items-center justify-center p-4">
                 <!-- 状态文字 -->
                 <div
-                    class="text-base-content/80 text-lg font-medium mb-8 transition-all duration-300">
+                    class="text-base-content/80 text-3xl font-medium mb-8 transition-all duration-300">
                     {{ status }}
                 </div>
 
@@ -13,8 +13,8 @@
                 <div class="flex items-center justify-center w-full max-w-sm">
                     <!-- 外层环形 -->
                     <div
-                        class="radial-progress text-base-300"
-                        :style="`--value: ${cycleProgress}; --size: 20rem; --thickness: 0.5rem`"
+                        class="radial-progress text-gray-400"
+                        :style="`--value: ${cycleProgress}; --size: 21rem; --thickness: 0.1rem`"
                         role="progressbar"
                         :aria-valuenow="cycleProgress"
                         aria-valuemin="0"
@@ -22,7 +22,7 @@
                         <!-- 内层环形 -->
                         <div
                             class="radial-progress text-primary"
-                            :style="`--value: ${progress}; --size: 16rem; --thickness: 0.5rem`"
+                            :style="`--value: ${progress}; --size: 21rem; --thickness: 1rem`"
                             role="progressbar"
                             :aria-valuenow="progress"
                             aria-valuemin="0"
@@ -30,7 +30,7 @@
                             <!-- 中心双行文本 -->
                             <div class="flex flex-col items-center">
                                 <div
-                                    class="flex items-center text-7xl font-bold transition-all duration-300">
+                                    class="flex items-center text-8xl font-bold text-primary transition-all duration-300">
                                     <span class="countdown font-mono">
                                         <span
                                             :style="{
@@ -61,7 +61,7 @@
                                         >
                                     </span>
                                 </div>
-                                <span class="text-4xl opacity-60 transition-all duration-300">{{
+                                <span class="text-4xl text-base-content/60 transition-all duration-300">{{
                                     cycleText
                                 }}</span>
                             </div>
@@ -71,6 +71,11 @@
 
                 <!-- 底部按钮 -->
                 <div class="mt-8 flex gap-4">
+                    <button
+                        class="btn btn-dash min-w-24 h-12 transition-all duration-300"
+                        @click="resetRuntime">
+                        重置
+                    </button>
                     <button
                         v-if="!isTimerRunning"
                         class="btn btn-primary min-w-24 h-12 transition-all duration-300"
@@ -83,22 +88,19 @@
                         @click="pauseTimer">
                         暂停
                     </button>
-                    <button
-                        v-if="isTimerRunning"
-                        class="btn btn-info min-w-24 h-12 transition-all duration-300"
-                        @click="fastForwardTimer">
-                        快速结束
-                    </button>
-                    <button
-                        class="btn btn-dash min-w-24 h-12 transition-all duration-300"
-                        @click="resetRuntime">
-                        重置
-                    </button>
                     <label
                         for="drawer"
                         class="drawer-button btn btn-secondary min-w-24 h-12 transition-all duration-300"
                         >设置</label
                     >
+                </div>
+                <div class="mt-8 flex gap-4 h-12">
+                    <button
+                        v-if="isTimerRunning"
+                        class="btn btn-info min-w-24 h-full transition-all duration-300"
+                        @click="fastForwardTimer">
+                        快速结束
+                    </button>
                 </div>
             </div>
         </div>
@@ -118,8 +120,9 @@
                     </div>
                     <input
                         type="range"
-                        min="1"
+                        min="5"
                         max="60"
+                        step="5"
                         :value="focusTime"
                         class="range range-primary"
                         @input="updateFocusTime($event)" />
@@ -132,8 +135,9 @@
                     </div>
                     <input
                         type="range"
-                        min="1"
-                        max="15"
+                        min="5"
+                        max="20"
+                        step="5"
                         :value="breakTime"
                         class="range range-primary"
                         @input="updateBreakTime($event)" />
