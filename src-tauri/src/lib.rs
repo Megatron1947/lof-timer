@@ -14,6 +14,17 @@ pub fn run() {
         }))
         .plugin(tauri_plugin_opener::init())
         .setup(|app| {
+            // 显式设置主窗口大小
+            if let Some(window) = app.get_webview_window("main") {
+                // 使用与配置文件相同的尺寸
+                let _ = window.set_size(tauri::LogicalSize {
+                    width: 380.0,
+                    height: 680.0,
+                });
+                // 确保窗口不可调整大小
+                let _ = window.set_resizable(false);
+            }
+
             // 创建菜单子项
             let menu_item_quit = MenuItem::with_id(app, "quit", "退出", true, None::<&str>)?;
             // 创建菜单
