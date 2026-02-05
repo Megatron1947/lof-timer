@@ -12,7 +12,6 @@ pub fn run() {
                 .expect("no main window")
                 .set_focus();
         }))
-        .plugin(tauri_plugin_opener::init())
         .setup(|app| {
             // 显式设置主窗口大小
             if let Some(window) = app.get_webview_window("main") {
