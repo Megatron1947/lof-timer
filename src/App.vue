@@ -1,5 +1,5 @@
 <template>
-    <div class="drawer drawer-end">
+    <div class="drawer drawer-end" :data-theme="currentTheme">
         <input id="drawer" type="checkbox" class="drawer-toggle" />
         <div class="drawer-content">
             <div class="min-h-screen bg-base-200 flex flex-col items-center justify-center p-4">
@@ -101,33 +101,15 @@
                         @input="updateTotalCycles($event)" />
                 </div>
                 <!-- 主题设置 -->
-                <div class="dropdown mb-72">
-                    <div tabindex="0" role="button" class="btn m-1">
-                        Theme
-                        <svg
-                            width="12px"
-                            height="12px"
-                            class="inline-block h-2 w-2 fill-current opacity-60"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 2048 2048">
-                            <path
-                                d="M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z"></path>
-                        </svg>
+                <div class="mb-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="text-sm font-medium">主题</label>
                     </div>
-                    <ul
-                        tabindex="-1"
-                        class="dropdown-content bg-base-300 rounded-box z-1 w-52 p-2 shadow-2xl">
-                        <template v-for="theme in themes">
-                            <li>
-                                <input
-                                    type="radio"
-                                    name="theme-dropdown"
-                                    class="theme-controller w-full btn btn-sm btn-block btn-ghost justify-start"
-                                    :aria-label="theme"
-                                    :value="theme" />
-                            </li>
-                        </template>
-                    </ul>
+                    <select class="select" @change="updateTheme" :value="currentTheme">
+                        <option v-for="t in daisyThemes" :key="t.name" :value="t.name">
+                            {{ t.label }}
+                        </option>
+                    </select>
                 </div>
                 <!-- 重置按钮 -->
                 <div class="mt-8">
@@ -141,7 +123,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted} from 'vue'
+import {computed, onMounted, ref} from 'vue'
 import {storeToRefs} from 'pinia'
 import {useTimerStore} from '@/stores/timerStore'
 import {TimerStatus} from '@/types/timer'
@@ -157,7 +139,7 @@ const {
     breakTime,
     totalCycles,
     currentCycle,
-    themes,
+    currentTheme,
 } = storeToRefs(timerStore)
 
 const progress = computed(() => {
@@ -209,8 +191,27 @@ const updateTotalCycles = (event: Event) => {
     saveConfig({totalCycles: value})
 }
 
-onMounted(() => {
+// 更新主题
+const updateTheme = (event: Event) => {
+    const target = event.target as HTMLInputElement
+    currentTheme.value = target.value
+    saveConfig({theme: target.value})
+}
+
+const daisyThemes = ref<{name: string; label: string}[]>([])
+const getDaisyThemes = async () => {
+    // 从 DaisyUI 包中导入主题对象
+    const {default: allThemes} = await import('daisyui/theme/object')
+    // 提取主题名称列表
+    daisyThemes.value = Object.keys(allThemes).map((name) => ({
+        name,
+        label: name.charAt(0).toUpperCase() + name.slice(1),
+    }))
+}
+
+onMounted(async () => {
     timerStore.initConfig()
+    await getDaisyThemes()
 })
 </script>
 
