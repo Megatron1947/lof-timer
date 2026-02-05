@@ -151,6 +151,35 @@ export const useTimerStore = defineStore('timer', () => {
         if (newConfig.theme) {
             currentTheme.value = newConfig.theme
         }
+
+        // 处理异常情况
+        // 1. 专注状态下调整focusTime小于当前剩余时间
+        if (status.value === TimerStatus.FOCUSING) {
+            const newFocusSeconds = focusTime.value * 60
+            if (remainingSeconds.value > newFocusSeconds) {
+                remainingSeconds.value = newFocusSeconds
+            }
+        }
+        // 2. 休息状态下调整breakTime小于当前剩余时间
+        if (status.value === TimerStatus.BREAKING) {
+            const newBreakSeconds = breakTime.value * 60
+            if (remainingSeconds.value > newBreakSeconds) {
+                remainingSeconds.value = newBreakSeconds
+            }
+        }
+        // 3. 调整totalCycles小于当前循环数
+        if (currentCycle.value >= totalCycles.value) {
+            currentCycle.value = totalCycles.value
+            if (isAllCycleFinished.value) {
+                status.value = TimerStatus.FINISHED
+                remainingSeconds.value = 0
+                if (timerId.value) {
+                    clearInterval(timerId.value)
+                    timerId.value = null
+                }
+            }
+        }
+
         // 同步到 localStorage
         try {
             localStorage.setItem(
