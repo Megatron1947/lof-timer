@@ -28,7 +28,15 @@
                             aria-valuemax="100">
                             <!-- 中心双行文本 -->
                             <div class="flex flex-col items-center">
-                                <span class="text-7xl font-bold">{{ formattedTime }}</span>
+                                <div class="flex items-center text-7xl font-bold">
+                                    <span class="countdown font-mono">
+                                        <span :style="{ '--value': Math.floor(remainingSeconds / 60), '--digits': 2 }" aria-live="polite">{{ Math.floor(remainingSeconds / 60).toString().padStart(2, '0') }}</span>
+                                    </span>
+                                    <span class="mx-2">:</span>
+                                    <span class="countdown font-mono">
+                                        <span :style="{ '--value': remainingSeconds % 60, '--digits': 2 }" aria-live="polite">{{ (remainingSeconds % 60).toString().padStart(2, '0') }}</span>
+                                    </span>
+                                </div>
                                 <span class="text-4xl opacity-60">{{ cycleText }}</span>
                             </div>
                         </div>
@@ -123,10 +131,11 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, ref} from 'vue'
+import {computed, onMounted, ref, watch} from 'vue'
 import {storeToRefs} from 'pinia'
 import {useTimerStore} from '@/stores/timerStore'
 import {TimerStatus} from '@/types/timer'
+import {Window} from '@tauri-apps/api/window'
 
 const timerStore = useTimerStore()
 const {
@@ -163,6 +172,27 @@ const cycleProgress = computed(() => {
     const current = Math.min(currentCycle.value, totalCycles.value)
     return Math.round((current / totalCycles.value) * 100)
 })
+
+const windowTitle = computed(() => {
+    switch (status.value) {
+        case TimerStatus.PAUSED:
+            return '暂停'
+        case TimerStatus.FOCUSING:
+            return `专注中 ${formattedTime.value}`
+        case TimerStatus.BREAKING:
+            return `休息中 ${formattedTime.value}`
+        default:
+            return 'lof-timer'
+    }
+})
+
+// 创建主窗口实例
+const appWindow = new Window('main')
+
+// 监听窗口标题变化并更新
+watch(windowTitle, async (newTitle) => {
+    await appWindow.setTitle(newTitle)
+}, { immediate: true })
 
 const startTimer = timerStore.startTimer
 const pauseTimer = timerStore.pauseTimer
