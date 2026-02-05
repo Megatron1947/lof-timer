@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@tailwindcss/vite':
-        specifier: ^4.1.18
-        version: 4.1.18(vite@7.3.1(@types/node@25.2.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.46.0))
       '@tauri-apps/api':
         specifier: ^2.10.1
         version: 2.10.1
@@ -23,13 +20,13 @@ importers:
       pinia-plugin-persistedstate:
         specifier: ^4.7.1
         version: 4.7.1(pinia@3.0.4(typescript@5.6.3)(vue@3.5.27(typescript@5.6.3)))
-      tailwindcss:
-        specifier: ^4.1.18
-        version: 4.1.18
       vue:
         specifier: ^3.5.27
         version: 3.5.27(typescript@5.6.3)
     devDependencies:
+      '@tailwindcss/vite':
+        specifier: ^4.1.18
+        version: 4.1.18(vite@7.3.1(@types/node@25.2.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.46.0))
       '@tauri-apps/cli':
         specifier: ^2.10.0
         version: 2.10.0
@@ -48,6 +45,9 @@ importers:
       prettier:
         specifier: ^3.8.1
         version: 3.8.1
+      tailwindcss:
+        specifier: ^4.1.18
+        version: 4.1.18
       terser:
         specifier: ^5.46.0
         version: 5.46.0
