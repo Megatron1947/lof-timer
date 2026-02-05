@@ -84,11 +84,15 @@
                         暂停
                     </button>
                     <button
-                        class="btn btn-ghost min-w-24 h-12 transition-all duration-300"
+                        class="btn btn-dash min-w-24 h-12 transition-all duration-300"
                         @click="resetRuntime">
                         重置
                     </button>
-                    <label for="drawer" class="drawer-button btn btn-secondary min-w-24 h-12 transition-all duration-300">设置</label>
+                    <label
+                        for="drawer"
+                        class="drawer-button btn btn-secondary min-w-24 h-12 transition-all duration-300"
+                        >设置</label
+                    >
                 </div>
             </div>
         </div>
