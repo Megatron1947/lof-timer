@@ -3,59 +3,55 @@
         <Navbar />
         <div class="drawer drawer-end">
             <input id="drawer" type="checkbox" class="drawer-toggle" />
-            <div class="drawer-content">
-                <div class="place-content-center place-items-center">
-                    <!-- 状态文字 -->
-                    <div
-                        class="text-base-content/80 text-3xl font-medium mt-8 mb-8 transition-all duration-300">
-                        {{ status }}
-                    </div>
+            <div class="drawer-content flex flex-col items-center justify-center">
+                <!-- 状态文字 -->
+                <div
+                    class="text-base-content/80 text-3xl font-medium mt-8 mb-8 transition-all duration-300 text-center">
+                    {{ status }}
+                </div>
 
-                    <!-- 环形进度条 -->
-                    <div>
-                        <!-- 外层环形 -->
-                        <RadialProgress
-                            :value="cycleProgress"
-                            size="21rem"
-                            thickness="0.1rem"
-                            color="text-gray-400">
-                            <!-- 内层环形 -->
-                            <RadialProgress
-                                :value="progress"
-                                size="21rem"
-                                thickness="1rem"
-                                color="text-primary">
-                                <!-- 倒计时 -->
-                                <Countdown />
-                            </RadialProgress>
-                        </RadialProgress>
-                    </div>
+                <!-- 环形进度条 -->
+                <!-- 外层环形 -->
+                <RadialProgress
+                    :value="cycleProgress"
+                    size="21rem"
+                    thickness="0.1rem"
+                    color="text-gray-400">
+                    <!-- 内层环形 -->
+                    <RadialProgress
+                        :value="progress"
+                        size="21rem"
+                        thickness="1rem"
+                        color="text-primary">
+                        <!-- 倒计时 -->
+                        <Countdown />
+                    </RadialProgress>
+                </RadialProgress>
 
-                    <!-- 底部按钮 -->
-                    <div class="mt-8 flex gap-4">
-                        <button
-                            class="btn btn-dash min-w-24 h-12 transition-all duration-300"
-                            @click="resetRuntime">
-                            重置
-                        </button>
-                        <button
-                            v-if="!isTimerRunning"
-                            class="btn btn-primary min-w-24 h-12 transition-all duration-300"
-                            @click="startTimer">
-                            {{ status === '暂停' ? '继续' : '启动' }}
-                        </button>
-                        <button
-                            v-else
-                            class="btn btn-warning min-w-24 h-12 transition-all duration-300"
-                            @click="pauseTimer">
-                            暂停
-                        </button>
-                        <label
-                            for="drawer"
-                            class="drawer-button btn btn-secondary min-w-24 h-12 transition-all duration-300"
-                            >设置</label
-                        >
-                    </div>
+                <!-- 底部按钮 -->
+                <div class="mt-8 flex gap-4">
+                    <button
+                        class="btn btn-dash min-w-24 h-12 transition-all duration-300"
+                        @click="resetRuntime">
+                        重置
+                    </button>
+                    <button
+                        v-if="!isTimerRunning"
+                        class="btn btn-primary min-w-24 h-12 transition-all duration-300"
+                        @click="startTimer">
+                        {{ status === '暂停' ? '继续' : '启动' }}
+                    </button>
+                    <button
+                        v-else
+                        class="btn btn-warning min-w-24 h-12 transition-all duration-300"
+                        @click="pauseTimer">
+                        暂停
+                    </button>
+                    <label
+                        for="drawer"
+                        class="drawer-button btn btn-secondary min-w-24 h-12 transition-all duration-300">
+                        设置
+                    </label>
                 </div>
             </div>
             <div class="drawer-side">
