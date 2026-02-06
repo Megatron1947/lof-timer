@@ -4,7 +4,15 @@ import {TimerConfig, TimerStatus} from '@/types/timer'
 import {Store} from '@tauri-apps/plugin-store'
 
 // Store 实例
-const store = await Store.load('settings.json')
+let store: Store | null = null
+
+// 初始化 Store 实例
+const getStore = async (): Promise<Store> => {
+    if (!store) {
+        store = await Store.load('settings.json')
+    }
+    return store
+}
 
 // 默认配置
 const DEFAULT_CONFIG: Readonly<TimerConfig & {theme: string}> = {
@@ -114,6 +122,7 @@ export const useTimerStore = defineStore('timer', () => {
      */
     const initConfig = async () => {
         try {
+            const store = await getStore()
             const storedConfig = await store.get('config')
             if (storedConfig) {
                 // 解析本地配置并校验合法性
@@ -181,6 +190,7 @@ export const useTimerStore = defineStore('timer', () => {
 
         // 同步到 Store
         try {
+            const store = await getStore()
             await store.set('config', {
                 focusTime: focusTime.value,
                 breakTime: breakTime.value,
