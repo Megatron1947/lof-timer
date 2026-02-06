@@ -61,9 +61,10 @@
                                         >
                                     </span>
                                 </div>
-                                <span class="text-4xl text-base-content/60 transition-all duration-300">{{
-                                    cycleText
-                                }}</span>
+                                <span
+                                    class="text-4xl text-base-content/60 transition-all duration-300"
+                                    >{{ cycleText }}</span
+                                >
                             </div>
                         </div>
                     </div>
@@ -301,7 +302,7 @@ const getDaisyThemes = async () => {
 }
 
 onMounted(async () => {
-    timerStore.initConfig()
+    await timerStore.initConfig()
     await getDaisyThemes()
 })
 </script>

@@ -8,10 +8,13 @@ pub fn run() {
         // 单例插件
         .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
             // 激活主窗口
-            let _ = app.get_webview_window("main")
+            let _ = app
+                .get_webview_window("main")
                 .expect("no main window")
                 .set_focus();
         }))
+        // Store 插件
+        .plugin(tauri_plugin_store::Builder::default().build())
         .setup(|app| {
             // 显式设置主窗口大小
             if let Some(window) = app.get_webview_window("main") {

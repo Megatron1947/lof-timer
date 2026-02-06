@@ -1,9 +1,11 @@
 import {defineStore} from 'pinia'
 import {computed, ref} from 'vue'
 import {TimerConfig, TimerStatus} from '@/types/timer'
+import {Store} from '@tauri-apps/plugin-store'
 
-// localStorage 持久化的 key
-const STORAGE_KEY = 'lof-timer-config'
+// Store 实例
+const store = await Store.load('settings.json')
+
 // 默认配置
 const DEFAULT_CONFIG: Readonly<TimerConfig & {theme: string}> = {
     // 专注时间(分钟)
@@ -107,17 +109,15 @@ export const useTimerStore = defineStore('timer', () => {
     }
 
     /**
-     * 初始化配置: 从 localStorage 加载持久化配置, 无配置则用默认值
+     * 初始化配置: 从 Store 加载持久化配置, 无配置则用默认值
      * 应用启动时自动执行, 无需组件手动调用
      */
-    const initConfig = () => {
+    const initConfig = async () => {
         try {
-            const storedConfig = localStorage.getItem(STORAGE_KEY)
+            const storedConfig = await store.get('config')
             if (storedConfig) {
                 // 解析本地配置并校验合法性
-                const parsed = JSON.parse(storedConfig) as Partial<
-                    TimerConfig & {theme: string}
-                >
+                const parsed = storedConfig as Partial<TimerConfig & {theme: string}>
                 focusTime.value = _validatePositiveNum(
                     parsed.focusTime,
                     DEFAULT_CONFIG.focusTime,
@@ -133,17 +133,16 @@ export const useTimerStore = defineStore('timer', () => {
                 currentTheme.value = parsed.theme || DEFAULT_CONFIG.theme
             }
         } catch (e) {
-            console.error('🍅 加载番茄时钟配置失败, 使用默认值: ', e)
             // 解析失败, 重置为默认配置
-            resetConfig()
+            await resetConfig()
         }
     }
 
     /**
-     * 保存配置: 更新配置并同步到 localStorage
+     * 保存配置: 更新配置并同步到 Store
      * @param newConfig 新的配置项(支持部分更新, 如仅修改focusTime)
      */
-    const saveConfig = (newConfig: Partial<TimerConfig & {theme: string}>) => {
+    const saveConfig = async (newConfig: Partial<TimerConfig & {theme: string}>) => {
         // 先校验并更新配置
         focusTime.value = _validatePositiveNum(newConfig.focusTime, focusTime.value)
         breakTime.value = _validatePositiveNum(newConfig.breakTime, breakTime.value)
@@ -180,28 +179,25 @@ export const useTimerStore = defineStore('timer', () => {
             }
         }
 
-        // 同步到 localStorage
+        // 同步到 Store
         try {
-            localStorage.setItem(
-                STORAGE_KEY,
-                JSON.stringify({
-                    focusTime: focusTime.value,
-                    breakTime: breakTime.value,
-                    totalCycles: totalCycles.value,
-                    theme: currentTheme.value,
-                }),
-            )
-            console.log('🍅 番茄时钟配置保存成功')
+            await store.set('config', {
+                focusTime: focusTime.value,
+                breakTime: breakTime.value,
+                totalCycles: totalCycles.value,
+                theme: currentTheme.value,
+            })
+            await store.save()
         } catch (e) {
             console.error('🍅 保存番茄时钟配置失败: ', e)
         }
     }
 
     /**
-     * 重置配置: 恢复为默认配置并同步到 localStorage
+     * 重置配置: 恢复为默认配置并同步到 Store
      */
-    const resetConfig = () => {
-        saveConfig(DEFAULT_CONFIG)
+    const resetConfig = async () => {
+        await saveConfig(DEFAULT_CONFIG)
     }
 
     /**
@@ -282,9 +278,9 @@ export const useTimerStore = defineStore('timer', () => {
      * 设置主题
      * @param theme 主题名称
      */
-    const setTheme = (theme: string) => {
+    const setTheme = async (theme: string) => {
         currentTheme.value = theme
-        saveConfig({theme})
+        await saveConfig({theme})
     }
 
     /**

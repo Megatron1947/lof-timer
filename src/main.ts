@@ -4,12 +4,16 @@ import App from './App.vue'
 import {createPinia} from 'pinia'
 import {useTimerStore} from './stores/timerStore'
 
-const app = createApp(App)
-const pinia = createPinia()
-app.use(pinia)
+async function initApp() {
+    const app = createApp(App)
+    const pinia = createPinia()
+    app.use(pinia)
 
-// 初始化定时器配置
-const timerStore = useTimerStore()
-timerStore.initConfig()
+    // 初始化定时器配置
+    const timerStore = useTimerStore()
+    await timerStore.initConfig()
 
-app.mount('#app')
+    app.mount('#app')
+}
+
+initApp()
