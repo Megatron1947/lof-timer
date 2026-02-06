@@ -1,77 +1,6 @@
 <template>
-    <div class="w-full h-full" :data-theme="currentTheme">
-        <div class="navbar min-h-10 max-h-10">
-            <div class="navbar-start gap-1">
-                <svg
-                    width="25"
-                    height="25"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24">
-                    <g
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path
-                            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066-2.573c-.94-1.543.826-3.31 2.37-2.37c1 .608 2.296.07 2.572-1.065z"></path>
-                        <circle cx="12" cy="12" r="3"></circle>
-                    </g>
-                </svg>
-                <svg
-                    width="25"
-                    height="25"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24">
-                    <g
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path
-                            d="M12 9V5.414a1 1 0 0 1 1.707-.707l6.586 6.586a1 1 0 0 1 0 1.414l-6.586 6.586A1 1 0 0 1 12 18.586V15H9V9h3z"></path>
-                        <path d="M3 9v6"></path>
-                        <path d="M6 9v6"></path>
-                    </g>
-                </svg>
-            </div>
-            <div class="navbar-center"></div>
-            <div class="navbar-end">
-                <svg
-                    width="25"
-                    height="25"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24">
-                    <g
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M15 19v-2a2 2 0 0 1 2-2h2"></path>
-                        <path d="M15 5v2a2 2 0 0 0 2 2h2"></path>
-                        <path d="M5 15h2a2 2 0 0 1 2 2v2"></path>
-                        <path d="M5 9h2a2 2 0 0 0 2-2V5"></path>
-                    </g>
-                </svg>
-                <svg
-                    width="25"
-                    height="25"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24">
-                    <g
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M18 6L6 18"></path>
-                        <path d="M6 6l12 12"></path>
-                    </g>
-                </svg>
-            </div>
-        </div>
+    <div class="w-screen h-screen" :data-theme="currentTheme">
+        <Navbar />
         <div class="drawer drawer-end">
             <input id="drawer" type="checkbox" class="drawer-toggle" />
             <div class="drawer-content">
@@ -85,64 +14,21 @@
                     <!-- 环形进度条 -->
                     <div>
                         <!-- 外层环形 -->
-                        <div
-                            class="radial-progress text-gray-400"
-                            :style="`--value: ${cycleProgress}; --size: 21rem; --thickness: 0.1rem`"
-                            role="progressbar"
-                            :aria-valuenow="cycleProgress"
-                            aria-valuemin="0"
-                            aria-valuemax="100">
+                        <RadialProgress
+                            :value="cycleProgress"
+                            size="21rem"
+                            thickness="0.1rem"
+                            color="text-gray-400">
                             <!-- 内层环形 -->
-                            <div
-                                class="radial-progress text-primary"
-                                :style="`--value: ${progress}; --size: 21rem; --thickness: 1rem`"
-                                role="progressbar"
-                                :aria-valuenow="progress"
-                                aria-valuemin="0"
-                                aria-valuemax="100">
-                                <!-- 中心双行文本 -->
-                                <div class="flex flex-col items-center font-mono">
-                                    <div
-                                        class="flex items-center text-8xl font-bold text-primary transition-all duration-300">
-                                        <span class="countdown">
-                                            <span
-                                                :style="{
-                                                    '--value': Math.floor(
-                                                        remainingSeconds / 60,
-                                                    ),
-                                                    '--digits': 2,
-                                                }"
-                                                aria-live="polite"
-                                                >{{
-                                                    Math.floor(remainingSeconds / 60)
-                                                        .toString()
-                                                        .padStart(2, '0')
-                                                }}</span
-                                            >
-                                        </span>
-                                        <span>:</span>
-                                        <span class="countdown">
-                                            <span
-                                                :style="{
-                                                    '--value': remainingSeconds % 60,
-                                                    '--digits': 2,
-                                                }"
-                                                aria-live="polite"
-                                                >{{
-                                                    (remainingSeconds % 60)
-                                                        .toString()
-                                                        .padStart(2, '0')
-                                                }}</span
-                                            >
-                                        </span>
-                                    </div>
-                                    <span
-                                        class="text-4xl text-base-content/60 transition-all duration-300"
-                                        >{{ cycleText }}</span
-                                    >
-                                </div>
-                            </div>
-                        </div>
+                            <RadialProgress
+                                :value="progress"
+                                size="21rem"
+                                thickness="1rem"
+                                color="text-primary">
+                                <!-- 倒计时 -->
+                                <Countdown />
+                            </RadialProgress>
+                        </RadialProgress>
                     </div>
 
                     <!-- 底部按钮 -->
@@ -170,14 +56,6 @@
                             >设置</label
                         >
                     </div>
-                    <div class="mt-8 flex gap-4 h-12">
-                        <button
-                            v-if="isTimerRunning && devMode"
-                            class="btn btn-info min-w-24 h-full transition-all duration-300"
-                            @click="fastForwardTimer">
-                            快速结束
-                        </button>
-                    </div>
                 </div>
             </div>
             <div class="drawer-side">
@@ -195,13 +73,15 @@ import {useTimerStore} from '@/stores/timerStore'
 import {TimerStatus} from '@/types/timer'
 import {Window} from '@tauri-apps/api/window'
 import Settings from '@/components/Settings.vue'
+import Navbar from '@/components/Navbar.vue'
+import Countdown from '@/components/Countdown.vue'
+import RadialProgress from '@/components/RadialProgress.vue'
 
 const timerStore = useTimerStore()
 const {
     status,
     previousStatus,
     formattedTime,
-    cycleText,
     isTimerRunning,
     remainingSeconds,
     focusTime,
@@ -263,9 +143,6 @@ watch(
 const startTimer = timerStore.startTimer
 const pauseTimer = timerStore.pauseTimer
 const resetRuntime = timerStore.resetRuntime
-const fastForwardTimer = timerStore.fastForwardTimer
-
-const devMode = import.meta.env.DEV
 
 onMounted(async () => {
     await timerStore.initConfig()

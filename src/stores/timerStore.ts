@@ -2,7 +2,11 @@ import {defineStore} from 'pinia'
 import {computed, ref} from 'vue'
 import {TimerConfig, TimerStatus} from '@/types/timer'
 import {Store} from '@tauri-apps/plugin-store'
-import {isPermissionGranted, requestPermission, sendNotification} from '@tauri-apps/plugin-notification'
+import {
+    isPermissionGranted,
+    requestPermission,
+    sendNotification,
+} from '@tauri-apps/plugin-notification'
 
 // Store 实例
 let store: Store | null = null
