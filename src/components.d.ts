@@ -12,7 +12,6 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Countdown: typeof import('./components/Countdown.vue')['default']
-    CountdownDisplay: typeof import('./components/CountdownDisplay.vue')['default']
     Navbar: typeof import('./components/Navbar.vue')['default']
     RadialProgress: typeof import('./components/RadialProgress.vue')['default']
     Settings: typeof import('./components/Settings.vue')['default']

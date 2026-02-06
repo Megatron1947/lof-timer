@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col items-center font-mono">
+    <div class="flex flex-col items-center font-mono z-10">
         <div class="text-8xl font-bold text-primary transition-all duration-300">
             <span class="countdown">
                 <span
