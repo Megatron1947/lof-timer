@@ -6,7 +6,7 @@
             <div class="drawer-content flex flex-col items-center justify-center">
                 <!-- 状态文字 -->
                 <div
-                    class="text-base-content/80 text-3xl font-medium mt-8 mb-8 transition-all duration-300 text-center">
+                    class="text-base-content/80 text-3xl font-medium my-14 transition-all duration-300 text-center">
                     {{ status }}
                 </div>
 
@@ -27,7 +27,7 @@
                 </RadialProgress>
 
                 <!-- 底部按钮 -->
-                <div class="mt-8 flex gap-4">
+                <div class="mt-14 flex gap-4">
                     <button
                         class="btn btn-dash min-w-24 h-12 transition-all duration-300"
                         @click="resetRuntime">
