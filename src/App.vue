@@ -1,195 +1,200 @@
 <template>
-    <div class="drawer drawer-end" :data-theme="currentTheme">
-        <input id="drawer" type="checkbox" class="drawer-toggle" />
-        <div class="drawer-content">
-            <div class="min-h-screen bg-base-200 flex flex-col items-center justify-center p-4">
-                <!-- 状态文字 -->
-                <div
-                    class="text-base-content/80 text-3xl font-medium mb-8 transition-all duration-300">
-                    {{ status }}
-                </div>
-
-                <!-- 环形进度条 -->
-                <div class="flex items-center justify-center w-full max-w-sm">
-                    <!-- 外层环形 -->
+    <div class="w-full h-full" :data-theme="currentTheme">
+        <div class="navbar min-h-10 max-h-10">
+            <div class="navbar-start gap-1">
+                <svg
+                    width="25"
+                    height="25"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24">
+                    <g
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path
+                            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066-2.573c-.94-1.543.826-3.31 2.37-2.37c1 .608 2.296.07 2.572-1.065z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </g>
+                </svg>
+                <svg
+                    width="25"
+                    height="25"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24">
+                    <g
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path
+                            d="M12 9V5.414a1 1 0 0 1 1.707-.707l6.586 6.586a1 1 0 0 1 0 1.414l-6.586 6.586A1 1 0 0 1 12 18.586V15H9V9h3z"></path>
+                        <path d="M3 9v6"></path>
+                        <path d="M6 9v6"></path>
+                    </g>
+                </svg>
+            </div>
+            <div class="navbar-center"></div>
+            <div class="navbar-end">
+                <svg
+                    width="25"
+                    height="25"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24">
+                    <g
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M15 19v-2a2 2 0 0 1 2-2h2"></path>
+                        <path d="M15 5v2a2 2 0 0 0 2 2h2"></path>
+                        <path d="M5 15h2a2 2 0 0 1 2 2v2"></path>
+                        <path d="M5 9h2a2 2 0 0 0 2-2V5"></path>
+                    </g>
+                </svg>
+                <svg
+                    width="25"
+                    height="25"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24">
+                    <g
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M18 6L6 18"></path>
+                        <path d="M6 6l12 12"></path>
+                    </g>
+                </svg>
+            </div>
+        </div>
+        <div class="drawer drawer-end">
+            <input id="drawer" type="checkbox" class="drawer-toggle" />
+            <div class="drawer-content">
+                <div class="place-content-center place-items-center">
+                    <!-- 状态文字 -->
                     <div
-                        class="radial-progress text-gray-400"
-                        :style="`--value: ${cycleProgress}; --size: 21rem; --thickness: 0.1rem`"
-                        role="progressbar"
-                        :aria-valuenow="cycleProgress"
-                        aria-valuemin="0"
-                        aria-valuemax="100">
-                        <!-- 内层环形 -->
+                        class="text-base-content/80 text-3xl font-medium mt-8 mb-8 transition-all duration-300">
+                        {{ status }}
+                    </div>
+
+                    <!-- 环形进度条 -->
+                    <div>
+                        <!-- 外层环形 -->
                         <div
-                            class="radial-progress text-primary"
-                            :style="`--value: ${progress}; --size: 21rem; --thickness: 1rem`"
+                            class="radial-progress text-gray-400"
+                            :style="`--value: ${cycleProgress}; --size: 21rem; --thickness: 0.1rem`"
                             role="progressbar"
-                            :aria-valuenow="progress"
+                            :aria-valuenow="cycleProgress"
                             aria-valuemin="0"
                             aria-valuemax="100">
-                            <!-- 中心双行文本 -->
-                            <div class="flex flex-col items-center font-mono">
-                                <div
-                                    class="flex items-center text-8xl font-bold text-primary transition-all duration-300">
-                                    <span class="countdown">
-                                        <span
-                                            :style="{
-                                                '--value': Math.floor(remainingSeconds / 60),
-                                                '--digits': 2,
-                                            }"
-                                            aria-live="polite"
-                                            >{{
-                                                Math.floor(remainingSeconds / 60)
-                                                    .toString()
-                                                    .padStart(2, '0')
-                                            }}</span
-                                        >
-                                    </span>
-                                    <span>:</span>
-                                    <span class="countdown">
-                                        <span
-                                            :style="{
-                                                '--value': remainingSeconds % 60,
-                                                '--digits': 2,
-                                            }"
-                                            aria-live="polite"
-                                            >{{
-                                                (remainingSeconds % 60)
-                                                    .toString()
-                                                    .padStart(2, '0')
-                                            }}</span
-                                        >
-                                    </span>
+                            <!-- 内层环形 -->
+                            <div
+                                class="radial-progress text-primary"
+                                :style="`--value: ${progress}; --size: 21rem; --thickness: 1rem`"
+                                role="progressbar"
+                                :aria-valuenow="progress"
+                                aria-valuemin="0"
+                                aria-valuemax="100">
+                                <!-- 中心双行文本 -->
+                                <div class="flex flex-col items-center font-mono">
+                                    <div
+                                        class="flex items-center text-8xl font-bold text-primary transition-all duration-300">
+                                        <span class="countdown">
+                                            <span
+                                                :style="{
+                                                    '--value': Math.floor(
+                                                        remainingSeconds / 60,
+                                                    ),
+                                                    '--digits': 2,
+                                                }"
+                                                aria-live="polite"
+                                                >{{
+                                                    Math.floor(remainingSeconds / 60)
+                                                        .toString()
+                                                        .padStart(2, '0')
+                                                }}</span
+                                            >
+                                        </span>
+                                        <span>:</span>
+                                        <span class="countdown">
+                                            <span
+                                                :style="{
+                                                    '--value': remainingSeconds % 60,
+                                                    '--digits': 2,
+                                                }"
+                                                aria-live="polite"
+                                                >{{
+                                                    (remainingSeconds % 60)
+                                                        .toString()
+                                                        .padStart(2, '0')
+                                                }}</span
+                                            >
+                                        </span>
+                                    </div>
+                                    <span
+                                        class="text-4xl text-base-content/60 transition-all duration-300"
+                                        >{{ cycleText }}</span
+                                    >
                                 </div>
-                                <span
-                                    class="text-4xl text-base-content/60 transition-all duration-300"
-                                    >{{ cycleText }}</span
-                                >
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- 底部按钮 -->
-                <div class="mt-8 flex gap-4">
-                    <button
-                        class="btn btn-dash min-w-24 h-12 transition-all duration-300"
-                        @click="resetRuntime">
-                        重置
-                    </button>
-                    <button
-                        v-if="!isTimerRunning"
-                        class="btn btn-primary min-w-24 h-12 transition-all duration-300"
-                        @click="startTimer">
-                        {{ status === '暂停' ? '继续' : '启动' }}
-                    </button>
-                    <button
-                        v-else
-                        class="btn btn-warning min-w-24 h-12 transition-all duration-300"
-                        @click="pauseTimer">
-                        暂停
-                    </button>
-                    <label
-                        for="drawer"
-                        class="drawer-button btn btn-secondary min-w-24 h-12 transition-all duration-300"
-                        >设置</label
-                    >
-                </div>
-                <div class="mt-8 flex gap-4 h-12">
-                    <button
-                        v-if="isTimerRunning && devMode"
-                        class="btn btn-info min-w-24 h-full transition-all duration-300"
-                        @click="fastForwardTimer">
-                        快速结束
-                    </button>
+                    <!-- 底部按钮 -->
+                    <div class="mt-8 flex gap-4">
+                        <button
+                            class="btn btn-dash min-w-24 h-12 transition-all duration-300"
+                            @click="resetRuntime">
+                            重置
+                        </button>
+                        <button
+                            v-if="!isTimerRunning"
+                            class="btn btn-primary min-w-24 h-12 transition-all duration-300"
+                            @click="startTimer">
+                            {{ status === '暂停' ? '继续' : '启动' }}
+                        </button>
+                        <button
+                            v-else
+                            class="btn btn-warning min-w-24 h-12 transition-all duration-300"
+                            @click="pauseTimer">
+                            暂停
+                        </button>
+                        <label
+                            for="drawer"
+                            class="drawer-button btn btn-secondary min-w-24 h-12 transition-all duration-300"
+                            >设置</label
+                        >
+                    </div>
+                    <div class="mt-8 flex gap-4 h-12">
+                        <button
+                            v-if="isTimerRunning && devMode"
+                            class="btn btn-info min-w-24 h-full transition-all duration-300"
+                            @click="fastForwardTimer">
+                            快速结束
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="drawer-side">
-            <label for="drawer" aria-label="close sidebar" class="drawer-overlay"></label>
-            <div class="bg-base-200 w-80 p-6 min-h-screen">
-                <div>
-                    <h2 class="text-xl font-bold mb-6 text-primary transition-all duration-300">
-                        设置
-                    </h2>
-                </div>
-                <!-- 专注时间设置 -->
-                <div class="mb-6">
-                    <div class="flex justify-between items-center mb-2">
-                        <label class="text-sm font-medium">专注时间</label>
-                        <span class="text-sm font-semibold">{{ focusTime }} 分钟</span>
-                    </div>
-                    <input
-                        type="range"
-                        min="5"
-                        max="60"
-                        step="5"
-                        :value="focusTime"
-                        class="range range-primary"
-                        @input="updateFocusTime($event)" />
-                </div>
-                <!-- 休息时间设置 -->
-                <div class="mb-6">
-                    <div class="flex justify-between items-center mb-2">
-                        <label class="text-sm font-medium">休息时间</label>
-                        <span class="text-sm font-semibold">{{ breakTime }} 分钟</span>
-                    </div>
-                    <input
-                        type="range"
-                        min="5"
-                        max="20"
-                        step="5"
-                        :value="breakTime"
-                        class="range range-primary"
-                        @input="updateBreakTime($event)" />
-                </div>
-                <!-- 循环次数设置 -->
-                <div class="mb-6">
-                    <div class="flex justify-between items-center mb-2">
-                        <label class="text-sm font-medium">循环次数</label>
-                        <span class="text-sm font-semibold">{{ totalCycles }} 次</span>
-                    </div>
-                    <input
-                        type="range"
-                        min="1"
-                        max="10"
-                        :value="totalCycles"
-                        class="range range-primary"
-                        @input="updateTotalCycles($event)" />
-                </div>
-                <!-- 主题设置 -->
-                <div class="mb-6">
-                    <div class="flex justify-between items-center mb-2">
-                        <label class="text-sm font-medium">主题</label>
-                    </div>
-                    <select
-                        class="select select-primary transition-all duration-300"
-                        @change="updateTheme"
-                        :value="currentTheme">
-                        <option v-for="t in daisyThemes" :key="t.name" :value="t.name">
-                            {{ t.label }}
-                        </option>
-                    </select>
-                </div>
-                <!-- 重置按钮 -->
-                <div class="mt-8">
-                    <button
-                        class="btn btn-ghost w-full hover:btn-primary/10 transition-all duration-300"
-                        @click="resetConfig">
-                        恢复默认设置
-                    </button>
-                </div>
+            <div class="drawer-side">
+                <label for="drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+                <Settings />
             </div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, ref, watch} from 'vue'
+import {computed, onMounted, watch} from 'vue'
 import {storeToRefs} from 'pinia'
 import {useTimerStore} from '@/stores/timerStore'
 import {TimerStatus} from '@/types/timer'
 import {Window} from '@tauri-apps/api/window'
+import Settings from '@/components/Settings.vue'
 
 const timerStore = useTimerStore()
 const {
@@ -258,54 +263,12 @@ watch(
 const startTimer = timerStore.startTimer
 const pauseTimer = timerStore.pauseTimer
 const resetRuntime = timerStore.resetRuntime
-const resetConfig = timerStore.resetConfig
-const saveConfig = timerStore.saveConfig
 const fastForwardTimer = timerStore.fastForwardTimer
 
 const devMode = import.meta.env.DEV
 
-// 更新专注时间
-const updateFocusTime = (event: Event) => {
-    const target = event.target as HTMLInputElement
-    const value = parseInt(target.value)
-    saveConfig({focusTime: value})
-}
-
-// 更新休息时间
-const updateBreakTime = (event: Event) => {
-    const target = event.target as HTMLInputElement
-    const value = parseInt(target.value)
-    saveConfig({breakTime: value})
-}
-
-// 更新循环次数
-const updateTotalCycles = (event: Event) => {
-    const target = event.target as HTMLInputElement
-    const value = parseInt(target.value)
-    saveConfig({totalCycles: value})
-}
-
-// 更新主题
-const updateTheme = (event: Event) => {
-    const target = event.target as HTMLInputElement
-    currentTheme.value = target.value
-    saveConfig({theme: target.value})
-}
-
-const daisyThemes = ref<{name: string; label: string}[]>([])
-const getDaisyThemes = async () => {
-    // 从 DaisyUI 包中导入主题对象
-    const {default: allThemes} = await import('daisyui/theme/object')
-    // 提取主题名称列表
-    daisyThemes.value = Object.keys(allThemes).map((name) => ({
-        name,
-        label: name.charAt(0).toUpperCase() + name.slice(1),
-    }))
-}
-
 onMounted(async () => {
     await timerStore.initConfig()
-    await getDaisyThemes()
 })
 </script>
 
