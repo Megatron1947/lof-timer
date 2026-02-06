@@ -11,13 +11,11 @@
                 </div>
 
                 <!-- 环形进度条 -->
-                <!-- 外层环形 -->
                 <RadialProgress
                     :value="cycleProgress"
                     size="21rem"
                     thickness="0.1rem"
                     color="text-gray-400">
-                    <!-- 内层环形 -->
                     <RadialProgress
                         :value="progress"
                         size="21rem"
