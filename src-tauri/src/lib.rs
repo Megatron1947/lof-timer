@@ -5,6 +5,8 @@ use tauri::Manager;
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        // 通知插件
+        .plugin(tauri_plugin_notification::init())
         // 单例插件
         .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
             // 激活主窗口

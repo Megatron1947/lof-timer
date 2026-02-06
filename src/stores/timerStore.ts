@@ -2,6 +2,7 @@ import {defineStore} from 'pinia'
 import {computed, ref} from 'vue'
 import {TimerConfig, TimerStatus} from '@/types/timer'
 import {Store} from '@tauri-apps/plugin-store'
+import {isPermissionGranted, requestPermission, sendNotification} from '@tauri-apps/plugin-notification'
 
 // Store 实例
 let store: Store | null = null
@@ -12,6 +13,27 @@ const getStore = async (): Promise<Store> => {
         store = await Store.load('settings.json')
     }
     return store
+}
+
+/**
+ * 发送通知的工具方法，包含权限检查和请求
+ * @param title 通知标题
+ * @param body 通知内容
+ */
+const sendSystemNotification = async (title: string, body: string) => {
+    // 检查是否有发送通知的权限
+    let permissionGranted = await isPermissionGranted()
+
+    // 如果没有，请求权限
+    if (!permissionGranted) {
+        const permission = await requestPermission()
+        permissionGranted = permission === 'granted'
+    }
+
+    // 获得权限后发送通知
+    if (permissionGranted) {
+        sendNotification({title, body})
+    }
 }
 
 // 默认配置
@@ -100,15 +122,25 @@ export const useTimerStore = defineStore('timer', () => {
             case TimerStatus.FOCUSING:
                 status.value = TimerStatus.BREAKING
                 remainingSeconds.value = breakTime.value * 60
+                // 发送专注时间结束通知
+                ;(async () => {
+                    await sendSystemNotification('专注时间结束', '开始休息吧~')
+                })()
                 break
             case TimerStatus.BREAKING:
                 currentCycle.value++
                 if (isAllCycleFinished.value) {
                     status.value = TimerStatus.FINISHED
                     remainingSeconds.value = 0
+                    // 调用所有循环完成的钩子函数
+                    onAllCycleFinished()
                 } else {
                     status.value = TimerStatus.FOCUSING
                     remainingSeconds.value = focusTime.value * 60
+                    // 发送休息时间结束通知
+                    ;(async () => {
+                        await sendSystemNotification('休息时间结束', '开始下一轮专注~')
+                    })()
                 }
                 break
             default:
@@ -278,10 +310,10 @@ export const useTimerStore = defineStore('timer', () => {
      * 组合式 API 中直接在此扩展, 无需修改核心逻辑
      */
     const onAllCycleFinished = () => {
-        console.log('🎉 所有番茄循环完成！恭喜你完成专注～')
-        // 后续集成 Tauri 通知的示例
-        // import { notify } from '@tauri-apps/api/notification'
-        // notify({ title: 'lof-timer', body: '所有循环完成！' })
+        // 发送所有循环完成通知
+        ;(async () => {
+            await sendSystemNotification('所有循环完成', '恭喜完成专注~')
+        })()
     }
 
     /**
