@@ -28,10 +28,10 @@
                             aria-valuemin="0"
                             aria-valuemax="100">
                             <!-- 中心双行文本 -->
-                            <div class="flex flex-col items-center">
+                            <div class="flex flex-col items-center font-mono">
                                 <div
                                     class="flex items-center text-8xl font-bold text-primary transition-all duration-300">
-                                    <span class="countdown font-mono">
+                                    <span class="countdown">
                                         <span
                                             :style="{
                                                 '--value': Math.floor(remainingSeconds / 60),
@@ -45,8 +45,8 @@
                                             }}</span
                                         >
                                     </span>
-                                    <span class="mx-2">:</span>
-                                    <span class="countdown font-mono">
+                                    <span>:</span>
+                                    <span class="countdown">
                                         <span
                                             :style="{
                                                 '--value': remainingSeconds % 60,
