@@ -97,7 +97,7 @@
                 </div>
                 <div class="mt-8 flex gap-4 h-12">
                     <button
-                        v-if="isTimerRunning"
+                        v-if="isTimerRunning && devMode"
                         class="btn btn-info min-w-24 h-full transition-all duration-300"
                         @click="fastForwardTimer">
                         快速结束
@@ -261,6 +261,8 @@ const resetRuntime = timerStore.resetRuntime
 const resetConfig = timerStore.resetConfig
 const saveConfig = timerStore.saveConfig
 const fastForwardTimer = timerStore.fastForwardTimer
+
+const devMode = import.meta.env.DEV
 
 // 更新专注时间
 const updateFocusTime = (event: Event) => {
