@@ -41,7 +41,7 @@ const sendSystemNotification = async (title: string, body: string) => {
 }
 
 // 默认配置
-const DEFAULT_CONFIG: Readonly<TimerConfig & {theme: string}> = {
+const DEFAULT_CONFIG: Readonly<TimerConfig> = {
     // 专注时间(分钟)
     focusTime: 25,
     // 休息时间(分钟)
@@ -50,13 +50,15 @@ const DEFAULT_CONFIG: Readonly<TimerConfig & {theme: string}> = {
     totalCycles: 4,
     // 主题
     theme: 'light',
+    // 模式
+    compact: false,
 }
 
 export const useTimerStore = defineStore('timer', () => {
     const focusTime = ref(DEFAULT_CONFIG.focusTime)
     const breakTime = ref(DEFAULT_CONFIG.breakTime)
     const totalCycles = ref(DEFAULT_CONFIG.totalCycles)
-    const currentTheme = ref(DEFAULT_CONFIG.theme)
+    const theme = ref(DEFAULT_CONFIG.theme)
 
     // 当前状态
     const status = ref<TimerStatus>(TimerStatus.READY)
@@ -68,6 +70,8 @@ export const useTimerStore = defineStore('timer', () => {
     const remainingSeconds = ref(0)
     // 定时器ID, 用于清除/暂停
     const timerId = ref<number | null>(null)
+    // 精简模式状态
+    const compact = ref(false)
 
     // 格式化剩余时间为 mm:ss 格式
     const formattedTime = computed(() => {
@@ -162,7 +166,7 @@ export const useTimerStore = defineStore('timer', () => {
             const storedConfig = await store.get('config')
             if (storedConfig) {
                 // 解析本地配置并校验合法性
-                const parsed = storedConfig as Partial<TimerConfig & {theme: string}>
+                const parsed = storedConfig as TimerConfig
                 focusTime.value = _validatePositiveNum(
                     parsed.focusTime,
                     DEFAULT_CONFIG.focusTime,
@@ -175,7 +179,8 @@ export const useTimerStore = defineStore('timer', () => {
                     parsed.totalCycles,
                     DEFAULT_CONFIG.totalCycles,
                 )
-                currentTheme.value = parsed.theme || DEFAULT_CONFIG.theme
+                theme.value = parsed.theme || DEFAULT_CONFIG.theme
+                compact.value = parsed.compact || false
             }
         } catch (e) {
             // 解析失败, 重置为默认配置
@@ -185,17 +190,16 @@ export const useTimerStore = defineStore('timer', () => {
 
     /**
      * 保存配置: 更新配置并同步到 Store
-     * @param newConfig 新的配置项(支持部分更新, 如仅修改focusTime)
+     * @param config 新的配置项(支持部分更新, 如仅修改focusTime)
      */
-    const saveConfig = async (newConfig: Partial<TimerConfig & {theme: string}>) => {
+    const saveConfig = async (config: Partial<TimerConfig>) => {
         // 先校验并更新配置
-        focusTime.value = _validatePositiveNum(newConfig.focusTime, focusTime.value)
-        breakTime.value = _validatePositiveNum(newConfig.breakTime, breakTime.value)
-        totalCycles.value = _validatePositiveNum(newConfig.totalCycles, totalCycles.value)
-        if (newConfig.theme) {
-            currentTheme.value = newConfig.theme
+        focusTime.value = _validatePositiveNum(config.focusTime, focusTime.value)
+        breakTime.value = _validatePositiveNum(config.breakTime, breakTime.value)
+        totalCycles.value = _validatePositiveNum(config.totalCycles, totalCycles.value)
+        if (config.theme) {
+            theme.value = config.theme
         }
-
         // 处理异常情况
         // 1. 专注状态下调整focusTime小于当前剩余时间
         if (status.value === TimerStatus.FOCUSING) {
@@ -231,7 +235,7 @@ export const useTimerStore = defineStore('timer', () => {
                 focusTime: focusTime.value,
                 breakTime: breakTime.value,
                 totalCycles: totalCycles.value,
-                theme: currentTheme.value,
+                theme: theme.value,
             })
             await store.save()
         } catch (e) {
@@ -322,11 +326,11 @@ export const useTimerStore = defineStore('timer', () => {
 
     /**
      * 设置主题
-     * @param theme 主题名称
+     * @param newTheme 主题名称
      */
-    const setTheme = async (theme: string) => {
-        currentTheme.value = theme
-        await saveConfig({theme})
+    const setTheme = async (newTheme: string) => {
+        theme.value = newTheme
+        await saveConfig({theme: newTheme})
     }
 
     /**
@@ -339,17 +343,25 @@ export const useTimerStore = defineStore('timer', () => {
         }
     }
 
+    /**
+     * 切换精简模式状态
+     */
+    const toggleCompact = () => {
+        compact.value = !compact.value
+    }
+
     return {
         // 配置状态
         focusTime,
         breakTime,
         totalCycles,
-        currentTheme,
+        theme,
         // 运行时状态
         status,
         previousStatus,
         currentCycle,
         remainingSeconds,
+        compact,
         // 计算属性
         formattedTime,
         cycleText,
@@ -365,5 +377,6 @@ export const useTimerStore = defineStore('timer', () => {
         onAllCycleFinished,
         setTheme,
         fastForward,
+        toggleCompact,
     }
 })

@@ -57,7 +57,7 @@
             <select
                 class="select select-primary transition-all duration-300"
                 @change="updateTheme"
-                :value="currentTheme">
+                :value="theme">
                 <option v-for="t in daisyThemes" :key="t.name" :value="t.name">
                     {{ t.label }}
                 </option>
@@ -79,34 +79,30 @@ import {storeToRefs} from 'pinia'
 import {onMounted, ref} from 'vue'
 
 const timerStore = useTimerStore()
-const {focusTime, breakTime, totalCycles, currentTheme} = storeToRefs(timerStore)
+const {focusTime, breakTime, totalCycles, theme} = storeToRefs(timerStore)
 const resetConfig = timerStore.resetConfig
 const saveConfig = timerStore.saveConfig
 // 更新专注时间
 const updateFocusTime = (event: Event) => {
     const target = event.target as HTMLInputElement
-    const value = parseInt(target.value)
-    saveConfig({focusTime: value})
+    saveConfig({focusTime: parseInt(target.value)})
 }
 
 // 更新休息时间
 const updateBreakTime = (event: Event) => {
     const target = event.target as HTMLInputElement
-    const value = parseInt(target.value)
-    saveConfig({breakTime: value})
+    saveConfig({breakTime: parseInt(target.value)})
 }
 
 // 更新循环次数
 const updateTotalCycles = (event: Event) => {
     const target = event.target as HTMLInputElement
-    const value = parseInt(target.value)
-    saveConfig({totalCycles: value})
+    saveConfig({totalCycles: parseInt(target.value)})
 }
 
 // 更新主题
 const updateTheme = (event: Event) => {
     const target = event.target as HTMLInputElement
-    currentTheme.value = target.value
     saveConfig({theme: target.value})
 }
 

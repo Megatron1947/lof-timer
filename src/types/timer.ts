@@ -14,4 +14,8 @@ export interface TimerConfig {
     breakTime: number
     // 总循环次数
     totalCycles: number
+    // 主题
+    theme: string
+    // 精简模式
+    compact: boolean
 }
