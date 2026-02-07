@@ -1,7 +1,8 @@
 <template>
-    <div class="navbar-container group z-30">
+    <div class="absolute top-0 left-0 right-0 h-16 group z-30">
         <div
-            class="navbar min-h-10 max-h-10 pt-5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            class="navbar min-h-10 max-h-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            :class="compact ? 'pt-2 group-hover:bg-base-300/40 backdrop-blur-sm' : 'pt-5'">
             <div class="navbar-start">
                 <button
                     class="btn btn-ghost btn-circle"
@@ -56,7 +57,7 @@ import {storeToRefs} from 'pinia'
 import {Window} from '@tauri-apps/api/window'
 
 const timerStore = useTimerStore()
-const {isTimerRunning} = storeToRefs(timerStore)
+const {isTimerRunning, compact} = storeToRefs(timerStore)
 
 const devMode = import.meta.env.DEV
 const window = new Window('main')
@@ -74,12 +75,4 @@ const toggleCompact = () => {
 }
 </script>
 
-<style scoped>
-.navbar-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4rem;
-}
-</style>
+<style scoped></style>
