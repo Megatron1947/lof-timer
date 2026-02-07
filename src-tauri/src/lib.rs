@@ -5,6 +5,8 @@ use tauri::Manager;
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        // 自动启动插件
+        .plugin(tauri_plugin_autostart::Builder::new().build())
         // 通知插件
         .plugin(tauri_plugin_notification::init())
         // 单例插件

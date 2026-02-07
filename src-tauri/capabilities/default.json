@@ -12,7 +12,7 @@
         "core:window:allow-set-size",
         "core:window:allow-set-skip-taskbar",
         "core:window:allow-set-title",
-        "store:default",
-        "notification:default"
+        "notification:default",
+        "store:default"
     ]
 }

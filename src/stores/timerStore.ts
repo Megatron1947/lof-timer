@@ -7,6 +7,7 @@ import {
     requestPermission,
     sendNotification,
 } from '@tauri-apps/plugin-notification'
+import {enable, isEnabled, disable} from '@tauri-apps/plugin-autostart'
 
 // Store 实例
 let store: Store | null = null
@@ -52,6 +53,8 @@ const DEFAULT_CONFIG: Readonly<TimerConfig> = {
     theme: 'light',
     // 模式
     compact: false,
+    // 自动启动
+    autoStart: false,
 }
 
 export const useTimerStore = defineStore('timer', () => {
@@ -72,6 +75,8 @@ export const useTimerStore = defineStore('timer', () => {
     const timerId = ref<number | null>(null)
     // 精简模式状态
     const compact = ref(false)
+    // 自动启动
+    const autoStart = ref(false)
 
     // 格式化剩余时间为 mm:ss 格式
     const formattedTime = computed(() => {
@@ -182,6 +187,8 @@ export const useTimerStore = defineStore('timer', () => {
                 theme.value = parsed.theme || DEFAULT_CONFIG.theme
                 compact.value = parsed.compact || false
             }
+            // 自动启动
+            autoStart.value = (await isEnabled()) || false
         } catch (e) {
             // 解析失败, 重置为默认配置
             await resetConfig()
@@ -227,6 +234,16 @@ export const useTimerStore = defineStore('timer', () => {
                 }
             }
         }
+        // 处理自动启动
+        if (config.autoStart !== undefined) {
+            if (config.autoStart) {
+                // 启用自动启动
+                await enable()
+            } else {
+                // 禁用自动启动
+                await disable()
+            }
+        }
 
         // 同步到 Store
         try {
@@ -236,6 +253,7 @@ export const useTimerStore = defineStore('timer', () => {
                 breakTime: breakTime.value,
                 totalCycles: totalCycles.value,
                 theme: theme.value,
+                compact: compact.value,
             })
             await store.save()
         } catch (e) {
@@ -356,6 +374,7 @@ export const useTimerStore = defineStore('timer', () => {
         breakTime,
         totalCycles,
         theme,
+        autoStart,
         // 运行时状态
         status,
         previousStatus,

@@ -18,4 +18,6 @@ export interface TimerConfig {
     theme: string
     // 精简模式
     compact: boolean
+    // 自动启动
+    autoStart: boolean
 }

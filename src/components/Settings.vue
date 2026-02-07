@@ -63,6 +63,13 @@
                 </option>
             </select>
         </div>
+        <!-- 自动启动 -->
+        <div class="mb-6">
+            <div class="flex justify-between items-center mb-2">
+                <label class="text-sm font-medium">自动启动</label>
+            </div>
+            <input type="checkbox" :checked="autoStart" class="toggle toggle-primary toggle-xl transition-all duration-300" @change="updateAutoStart" />
+        </div>
         <!-- 重置按钮 -->
         <div class="mt-8">
             <button
@@ -79,7 +86,7 @@ import {storeToRefs} from 'pinia'
 import {onMounted, ref} from 'vue'
 
 const timerStore = useTimerStore()
-const {focusTime, breakTime, totalCycles, theme} = storeToRefs(timerStore)
+const {focusTime, breakTime, totalCycles, theme, autoStart} = storeToRefs(timerStore)
 const resetConfig = timerStore.resetConfig
 const saveConfig = timerStore.saveConfig
 // 更新专注时间
@@ -104,6 +111,12 @@ const updateTotalCycles = (event: Event) => {
 const updateTheme = (event: Event) => {
     const target = event.target as HTMLInputElement
     saveConfig({theme: target.value})
+}
+
+// 更新自动启动
+const updateAutoStart = (event: Event) => {
+    const target = event.target as HTMLInputElement
+    saveConfig({autoStart: target.checked})
 }
 
 const daisyThemes = ref<{name: string; label: string}[]>([])
