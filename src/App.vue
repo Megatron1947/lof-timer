@@ -5,7 +5,7 @@
         :style="{backgroundColor: compact ? 'transparent' : ''}"
         id="app-container">
         <Navbar />
-        <div v-if="compact" class="flex items-center justify-center h-full">
+        <div v-if="compact" class="flex items-center justify-center h-full pb-3">
             <Countdown />
         </div>
         <div v-else class="drawer drawer-end">
@@ -13,7 +13,7 @@
             <div class="drawer-content flex flex-col items-center justify-center">
                 <!-- 状态文字 -->
                 <div
-                    class="text-base-content/80 text-3xl font-medium my-14 transition-all duration-300 text-center">
+                    class="text-base-content/80 text-3xl font-medium my-18 transition-all duration-300 text-center">
                     {{ status }}
                 </div>
 
@@ -34,7 +34,7 @@
                 </RadialProgress>
 
                 <!-- 底部按钮 -->
-                <div class="mt-14 flex gap-4">
+                <div class="mt-18 flex gap-4">
                     <button
                         class="btn btn-dash min-w-24 h-12 transition-all duration-300"
                         @click="resetRuntime">
@@ -145,7 +145,7 @@ watch(
 // 监听精简模式变化并调整窗口大小
 watch(compact, async (isCompact) => {
     if (isCompact) {
-        await appWindow.setSize(new LogicalSize({width: 280, height: 160}))
+        await appWindow.setSize(new LogicalSize({width: 280, height: 135}))
         await appWindow.setAlwaysOnTop(true)
     } else {
         await appWindow.setSize(new LogicalSize({width: 380, height: 680}))
