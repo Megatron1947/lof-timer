@@ -1,5 +1,5 @@
 <template>
-    <div class="w-screen h-screen" :data-theme="currentTheme">
+    <div class="w-screen h-screen drag-region" :data-theme="currentTheme">
         <Navbar />
         <div class="drawer drawer-end">
             <input id="drawer" type="checkbox" class="drawer-toggle" />
@@ -144,3 +144,13 @@ onMounted(async () => {
 </script>
 
 <style scoped></style>
+
+<style>
+.drag-region {
+    -webkit-app-region: drag;
+}
+
+.btn, input, select {
+    -webkit-app-region: no-drag;
+}
+</style>
