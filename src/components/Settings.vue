@@ -29,7 +29,7 @@
             <input
                 type="range"
                 min="5"
-                max="20"
+                max="25"
                 step="5"
                 :value="breakTime"
                 class="range range-primary"
@@ -44,7 +44,7 @@
             <input
                 type="range"
                 min="1"
-                max="10"
+                max="5"
                 :value="totalCycles"
                 class="range range-primary"
                 @input="updateTotalCycles($event)" />
