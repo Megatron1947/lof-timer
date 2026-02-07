@@ -1,5 +1,5 @@
 <template>
-    <div class="w-screen h-screen drag-region" :data-theme="theme">
+    <div class="w-screen h-screen" :data-theme="theme">
         <Navbar />
         <div class="drawer drawer-end">
             <input id="drawer" type="checkbox" class="drawer-toggle" />
