@@ -1,5 +1,5 @@
 <template>
-    <div class="w-screen h-screen" :data-theme="theme">
+    <div class="w-screen h-screen" :data-theme="theme" id="app-container">
         <Navbar />
         <div class="drawer drawer-end">
             <input id="drawer" type="checkbox" class="drawer-toggle" />
@@ -140,7 +140,16 @@ const resetRuntime = timerStore.resetRuntime
 
 onMounted(async () => {
     await timerStore.initConfig()
+    const appContainer = document.getElementById('app-container')
+    if (!appContainer) {
+        return
+    }
+    appContainer.addEventListener('mousedown', (e) => {
+        const target = e.target as HTMLElement
+        const isInteractive = target.closest('button') || target.closest('input') || target.closest('select') || target.closest('label')
+        if (!isInteractive && e.buttons === 1) {
+            appWindow.startDragging()
+        }
+    })
 })
 </script>
-
-<style scoped></style>
