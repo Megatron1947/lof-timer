@@ -4,3 +4,7 @@
     root: '#app';
     logs: false;
 }
+
+* {
+    user-select: none;
+}
