@@ -1,6 +1,7 @@
 <template>
     <div class="navbar-container group z-30">
-        <div class="navbar min-h-10 max-h-10 pt-5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div
+            class="navbar min-h-10 max-h-10 pt-5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <div class="navbar-start">
                 <button
                     class="btn btn-ghost btn-circle"
@@ -17,7 +18,7 @@
             </div>
             <div class="navbar-center"></div>
             <div class="navbar-end">
-                <button class="btn btn-ghost btn-circle">
+                <button class="btn btn-ghost btn-circle" @click="toggleCompact">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
                         <g>
                             <path
@@ -66,6 +67,10 @@ const minimize = async () => {
 
 const close = async () => {
     await window.close()
+}
+
+const toggleCompact = () => {
+    timerStore.toggleCompact()
 }
 </script>
 

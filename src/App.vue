@@ -1,7 +1,14 @@
 <template>
-    <div class="w-screen h-screen" :data-theme="theme" id="app-container">
+    <div
+        class="w-screen h-screen transition-all duration-300"
+        :data-theme="theme"
+        :style="{backgroundColor: compact ? 'transparent' : ''}"
+        id="app-container">
         <Navbar />
-        <div class="drawer drawer-end">
+        <div v-if="compact" class="flex items-center justify-center h-full">
+            <Countdown />
+        </div>
+        <div v-else class="drawer drawer-end">
             <input id="drawer" type="checkbox" class="drawer-toggle" />
             <div class="drawer-content flex flex-col items-center justify-center">
                 <!-- 状态文字 -->
@@ -65,7 +72,7 @@ import {computed, onMounted, watch} from 'vue'
 import {storeToRefs} from 'pinia'
 import {useTimerStore} from '@/stores/timerStore'
 import {TimerStatus} from '@/types/timer'
-import {Window} from '@tauri-apps/api/window'
+import {LogicalSize, Window} from '@tauri-apps/api/window'
 import Settings from '@/components/Settings.vue'
 import Navbar from '@/components/Navbar.vue'
 import Countdown from '@/components/Countdown.vue'
@@ -83,6 +90,7 @@ const {
     totalCycles,
     currentCycle,
     theme,
+    compact,
 } = storeToRefs(timerStore)
 
 const progress = computed(() => {
@@ -134,6 +142,17 @@ watch(
     {immediate: true},
 )
 
+// 监听精简模式变化并调整窗口大小
+watch(compact, async (isCompact) => {
+    if (isCompact) {
+        await appWindow.setSize(new LogicalSize({width: 280, height: 160}))
+        await appWindow.setAlwaysOnTop(true)
+    } else {
+        await appWindow.setSize(new LogicalSize({width: 380, height: 680}))
+        await appWindow.setAlwaysOnTop(false)
+    }
+})
+
 const startTimer = timerStore.startTimer
 const pauseTimer = timerStore.pauseTimer
 const resetRuntime = timerStore.resetRuntime
@@ -146,7 +165,11 @@ onMounted(async () => {
     }
     appContainer.addEventListener('mousedown', (e) => {
         const target = e.target as HTMLElement
-        const isInteractive = target.closest('button') || target.closest('input') || target.closest('select') || target.closest('label')
+        const isInteractive =
+            target.closest('button')
+            || target.closest('input')
+            || target.closest('select')
+            || target.closest('label')
         if (!isInteractive && e.buttons === 1) {
             appWindow.startDragging()
         }
