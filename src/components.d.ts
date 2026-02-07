@@ -11,6 +11,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    Buttons: typeof import('./components/Buttons.vue')['default']
     Countdown: typeof import('./components/Countdown.vue')['default']
     Navbar: typeof import('./components/Navbar.vue')['default']
     RadialProgress: typeof import('./components/RadialProgress.vue')['default']

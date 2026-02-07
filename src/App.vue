@@ -34,30 +34,7 @@
                 </RadialProgress>
 
                 <!-- 底部按钮 -->
-                <div class="mt-18 flex gap-4">
-                    <button
-                        class="btn btn-dash min-w-24 h-12 transition-all duration-300"
-                        @click="resetRuntime">
-                        重置
-                    </button>
-                    <button
-                        v-if="!isTimerRunning"
-                        class="btn btn-primary min-w-24 h-12 transition-all duration-300"
-                        @click="startTimer">
-                        {{ status === '暂停' ? '继续' : '启动' }}
-                    </button>
-                    <button
-                        v-else
-                        class="btn btn-warning min-w-24 h-12 transition-all duration-300"
-                        @click="pauseTimer">
-                        暂停
-                    </button>
-                    <label
-                        for="drawer"
-                        class="drawer-button btn btn-secondary min-w-24 h-12 transition-all duration-300">
-                        设置
-                    </label>
-                </div>
+                <Buttons />
             </div>
             <div class="drawer-side mt-12 z-20">
                 <label for="drawer" aria-label="close sidebar" class="drawer-overlay"></label>
@@ -77,13 +54,13 @@ import Settings from '@/components/Settings.vue'
 import Navbar from '@/components/Navbar.vue'
 import Countdown from '@/components/Countdown.vue'
 import RadialProgress from '@/components/RadialProgress.vue'
+import Buttons from '@/components/Buttons.vue'
 
 const timerStore = useTimerStore()
 const {
     status,
     previousStatus,
     formattedTime,
-    isTimerRunning,
     remainingSeconds,
     focusTime,
     breakTime,
@@ -147,15 +124,13 @@ watch(compact, async (isCompact) => {
     if (isCompact) {
         await appWindow.setSize(new LogicalSize({width: 280, height: 135}))
         await appWindow.setAlwaysOnTop(true)
+        await appWindow.setSkipTaskbar(true)
     } else {
         await appWindow.setSize(new LogicalSize({width: 380, height: 680}))
         await appWindow.setAlwaysOnTop(false)
+        await appWindow.setSkipTaskbar(false)
     }
 })
-
-const startTimer = timerStore.startTimer
-const pauseTimer = timerStore.pauseTimer
-const resetRuntime = timerStore.resetRuntime
 
 onMounted(async () => {
     await timerStore.initConfig()
