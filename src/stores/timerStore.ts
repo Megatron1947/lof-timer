@@ -10,6 +10,7 @@ import {
 import {useTimerLogic, onAllCycleFinished} from '@/composables/useTimerLogic'
 
 export const useTimerStore = defineStore('timer', () => {
+    const initialized = ref(false)
     const focusTime = ref(DEFAULT_CONFIG.focusTime)
     const breakTime = ref(DEFAULT_CONFIG.breakTime)
     const totalCycles = ref(DEFAULT_CONFIG.totalCycles)
@@ -60,6 +61,7 @@ export const useTimerStore = defineStore('timer', () => {
         theme.value = config.theme
         compact.value = config.compact
         autoStart.value = config.autoStart
+        initialized.value = true
     }
 
     const saveConfig = async (config: Partial<TimerConfig>) => {
@@ -187,6 +189,7 @@ export const useTimerStore = defineStore('timer', () => {
     }
 
     return {
+        initialized,
         focusTime,
         breakTime,
         totalCycles,

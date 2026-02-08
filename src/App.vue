@@ -5,7 +5,21 @@
         :style="{backgroundColor: compact ? 'transparent' : ''}"
         id="app-container">
         <Navbar />
-        <div v-if="compact" class="flex items-center justify-center h-full pb-3">
+        <div v-if="!initialized" class="flex flex-col items-center justify-center h-full">
+            <div v-if="compact" class="flex items-center justify-center h-full pb-3">
+                <div class="skeleton h-20 w-48 rounded-lg"></div>
+            </div>
+            <div v-else class="flex flex-col items-center justify-center">
+                <div class="skeleton h-8 w-24 mb-18"></div>
+                <div class="skeleton h-80 w-80 rounded-full mb-18"></div>
+                <div class="flex gap-4">
+                    <div class="skeleton h-14 w-14 rounded-full"></div>
+                    <div class="skeleton h-14 w-14 rounded-full"></div>
+                    <div class="skeleton h-14 w-14 rounded-full"></div>
+                </div>
+            </div>
+        </div>
+        <div v-else-if="compact" class="flex items-center justify-center h-full pb-3">
             <Countdown />
         </div>
         <div v-else class="drawer drawer-end">
@@ -45,7 +59,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, watch} from 'vue'
+import {computed, nextTick, onMounted, watch} from 'vue'
 import {storeToRefs} from 'pinia'
 import {useTimerStore} from '@/stores/timerStore'
 import {TimerStatus} from '@/types/timer'
@@ -58,6 +72,7 @@ import Buttons from '@/components/Buttons.vue'
 
 const timerStore = useTimerStore()
 const {
+    initialized,
     status,
     previousStatus,
     formattedTime,
@@ -132,7 +147,15 @@ watch(compact, async (isCompact) => {
     }
 })
 
-onMounted(() => {
+onMounted(async () => {
+    await nextTick()
+    try {
+        await appWindow.show()
+        await appWindow.center()
+        await appWindow.setFocus()
+    } catch (error) {
+        console.error('Failed to show window:', error)
+    }
     const appContainer = document.getElementById('app-container')
     if (!appContainer) {
         return

@@ -11,4 +11,6 @@ app.use(pinia)
 app.mount('#app')
 
 const timerStore = useTimerStore()
-timerStore.initConfig()
+setTimeout(() => {
+    timerStore.initConfig()
+}, 100)
