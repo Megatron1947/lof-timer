@@ -132,8 +132,7 @@ watch(compact, async (isCompact) => {
     }
 })
 
-onMounted(async () => {
-    await timerStore.initConfig()
+onMounted(() => {
     const appContainer = document.getElementById('app-container')
     if (!appContainer) {
         return

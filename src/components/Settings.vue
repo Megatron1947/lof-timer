@@ -68,7 +68,11 @@
             <div class="flex justify-between items-center mb-2">
                 <label class="text-sm font-medium">自动启动</label>
             </div>
-            <input type="checkbox" :checked="autoStart" class="toggle toggle-primary toggle-xl transition-all duration-300" @change="updateAutoStart" />
+            <input
+                type="checkbox"
+                :checked="autoStart"
+                class="toggle toggle-primary toggle-xl transition-all duration-300"
+                @change="updateAutoStart" />
         </div>
         <!-- 重置按钮 -->
         <div class="mt-8">

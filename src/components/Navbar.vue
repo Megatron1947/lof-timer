@@ -111,8 +111,8 @@ const close = async () => {
     await window.close()
 }
 
-const toggleCompact = () => {
-    timerStore.toggleCompact()
+const toggleCompact = async () => {
+    await timerStore.toggleCompact()
 }
 </script>
 
