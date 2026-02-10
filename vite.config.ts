@@ -50,17 +50,16 @@ export default defineConfig(async () => ({
     build: {
         target: 'es2015',
         minify: 'terser' as const,
+        cssMinify: true,
         terserOptions: {
             compress: {
                 drop_console: true,
                 drop_debugger: true,
+                pure_funcs: ['console.log'],
+                passes: 2,
             },
-        },
-        rollupOptions: {
-            output: {
-                manualChunks: {
-                    pinia: ['pinia'],
-                },
+            mangle: {
+                safari10: true,
             },
         },
     },

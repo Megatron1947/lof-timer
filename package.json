@@ -10,7 +10,7 @@
         "tauri": "tauri dev",
         "format": "prettier --write .",
         "build no bundle": "tauri build --no-bundle",
-        "build for Win": "tauri build --target x86_64-pc-windows-msvc"
+        "build for Win": "tauri build -t x86_64-pc-windows-msvc"
     },
     "dependencies": {
         "@tauri-apps/api": "^2.10.1",
@@ -18,14 +18,11 @@
         "@tauri-apps/plugin-notification": "~2.3.3",
         "@tauri-apps/plugin-store": "~2",
         "pinia": "^3.0.4",
-        "pinia-plugin-persistedstate": "^4.7.1",
         "vue": "^3.5.27"
     },
     "devDependencies": {
         "@tailwindcss/vite": "^4.1.18",
         "@tauri-apps/cli": "^2.10.0",
-        "@types/node": "^25.2.0",
-        "@unocss/preset-wind4": "^66.6.0",
         "@vitejs/plugin-vue": "^6.0.4",
         "daisyui": "^5.5.17",
         "prettier": "^3.8.1",
