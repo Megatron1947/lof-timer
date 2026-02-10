@@ -1,6 +1,7 @@
 <template>
     <div
-        class="w-screen h-screen transition-all duration-300"
+        class="w-screen h-screen"
+        :class="{'overflow-hidden': compact}"
         :data-theme="theme"
         :style="{backgroundColor: compact ? 'transparent' : ''}"
         id="app-container">
@@ -26,8 +27,7 @@
             <input id="drawer" type="checkbox" class="drawer-toggle" />
             <div class="drawer-content flex flex-col items-center justify-center">
                 <!-- 状态文字 -->
-                <div
-                    class="text-base-content/80 text-3xl font-medium my-18 transition-all duration-300 text-center">
+                <div class="text-base-content/80 text-3xl font-medium my-18 text-center">
                     {{ status }}
                 </div>
 
@@ -136,6 +136,7 @@ watch(
 
 // 监听精简模式变化并调整窗口大小
 watch(compact, async (isCompact) => {
+    await nextTick()
     if (isCompact) {
         await appWindow.setSize(new LogicalSize({width: 280, height: 135}))
         await appWindow.setAlwaysOnTop(true)
