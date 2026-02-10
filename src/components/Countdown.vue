@@ -27,7 +27,7 @@
                 >
             </span>
         </div>
-        <div class="text-4xl text-base-content/60 transition-all duration-300">
+        <div class="text-4xl text-accent transition-all duration-300">
             <span>
                 {{ cycleText }}
             </span>

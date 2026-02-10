@@ -36,7 +36,7 @@
                     :value="cycleProgress"
                     size="21rem"
                     thickness="0.1rem"
-                    color="text-gray-400">
+                    color="text-accent">
                     <RadialProgress
                         :value="progress"
                         size="21rem"
