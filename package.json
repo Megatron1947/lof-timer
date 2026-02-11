@@ -9,8 +9,8 @@
         "preview": "vite preview",
         "tauri": "tauri dev",
         "format": "prettier --write .",
-        "build no bundle": "tauri build --no-bundle",
-        "build for Win": "tauri build -t x86_64-pc-windows-msvc"
+        "build:no-bundle": "tauri build --no-bundle",
+        "build:win": "tauri build -t x86_64-pc-windows-msvc"
     },
     "dependencies": {
         "@tauri-apps/api": "^2.10.1",
