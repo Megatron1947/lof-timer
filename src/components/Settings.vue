@@ -44,7 +44,7 @@
             <input
                 type="range"
                 min="1"
-                max="5"
+                max="10"
                 :value="totalCycles"
                 class="range range-primary"
                 @input="updateTotalCycles($event)" />
