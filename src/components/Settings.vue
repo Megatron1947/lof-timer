@@ -72,7 +72,7 @@
                 type="checkbox"
                 :checked="autoStart"
                 class="toggle toggle-primary toggle-xl transition-all duration-300"
-                @change="updateAutoStart" />
+                @change="handleAutoStartChange" />
         </div>
         <!-- 重置按钮 -->
         <div class="mt-8">
@@ -87,47 +87,53 @@
 <script setup lang="ts">
 import {useTimerStore} from '@/stores/timerStore.ts'
 import {storeToRefs} from 'pinia'
-import {onMounted, ref} from 'vue'
+import {onMounted, ref, watch} from 'vue'
+import {useDebounceFn} from '@vueuse/core'
 
 const timerStore = useTimerStore()
-const {focusTime, breakTime, totalCycles, theme, autoStart} = storeToRefs(timerStore)
+const {focusTime, breakTime, totalCycles, theme, autoStart, compact} = storeToRefs(timerStore)
 const resetConfig = timerStore.resetConfig
-const saveConfig = timerStore.saveConfig
-// 更新专注时间
+const updateConfig = timerStore.updateConfig
+const persistConfig = timerStore.persistConfig
+const updateAutoStart = timerStore.updateAutoStart
+
 const updateFocusTime = (event: Event) => {
     const target = event.target as HTMLInputElement
-    saveConfig({focusTime: parseInt(target.value)})
+    updateConfig({focusTime: parseInt(target.value)})
 }
 
-// 更新休息时间
 const updateBreakTime = (event: Event) => {
     const target = event.target as HTMLInputElement
-    saveConfig({breakTime: parseInt(target.value)})
+    updateConfig({breakTime: parseInt(target.value)})
 }
 
-// 更新循环次数
 const updateTotalCycles = (event: Event) => {
     const target = event.target as HTMLInputElement
-    saveConfig({totalCycles: parseInt(target.value)})
+    updateConfig({totalCycles: parseInt(target.value)})
 }
 
-// 更新主题
 const updateTheme = (event: Event) => {
     const target = event.target as HTMLInputElement
-    saveConfig({theme: target.value})
+    updateConfig({theme: target.value})
 }
 
-// 更新自动启动
-const updateAutoStart = (event: Event) => {
+const debouncedPersist = useDebounceFn(() => {
+    persistConfig()
+}, 500)
+
+watch([focusTime, breakTime, totalCycles, theme, compact], () => {
+    debouncedPersist()
+})
+
+const handleAutoStartChange = async (event: Event) => {
     const target = event.target as HTMLInputElement
-    saveConfig({autoStart: target.checked})
+    await updateAutoStart(target.checked)
+    await persistConfig()
 }
 
 const daisyThemes = ref<{name: string; label: string}[]>([])
 const getDaisyThemes = async () => {
-    // 从 DaisyUI 包中导入主题对象
     const {default: allThemes} = await import('daisyui/theme/object')
-    // 提取主题名称列表
     daisyThemes.value = Object.keys(allThemes).map((name) => ({
         name,
         label: name.charAt(0).toUpperCase() + name.slice(1),

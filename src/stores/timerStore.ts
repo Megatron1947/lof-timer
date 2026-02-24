@@ -64,7 +64,7 @@ export const useTimerStore = defineStore('timer', () => {
         initialized.value = true
     }
 
-    const saveConfig = async (config: Partial<TimerConfig>) => {
+    const updateConfig = (config: Partial<TimerConfig>) => {
         if (config.focusTime !== undefined) {
             focusTime.value = config.focusTime
         }
@@ -106,12 +106,9 @@ export const useTimerStore = defineStore('timer', () => {
                 }
             }
         }
+    }
 
-        if (config.autoStart !== undefined) {
-            await setAutoStart(config.autoStart)
-            autoStart.value = config.autoStart
-        }
-
+    const persistConfig = async () => {
         try {
             await saveConfigService({
                 focusTime: focusTime.value,
@@ -123,6 +120,21 @@ export const useTimerStore = defineStore('timer', () => {
         } catch (e) {
             console.error('🍅 保存番茄时钟配置失败: ', e)
         }
+    }
+
+    const updateAutoStart = async (enabled: boolean) => {
+        await setAutoStart(enabled)
+        autoStart.value = enabled
+    }
+
+    const saveConfig = async (config: Partial<TimerConfig>) => {
+        updateConfig(config)
+        
+        if (config.autoStart !== undefined) {
+            await updateAutoStart(config.autoStart)
+        }
+        
+        await persistConfig()
     }
 
     const resetConfig = async () => {
@@ -173,8 +185,8 @@ export const useTimerStore = defineStore('timer', () => {
     }
 
     const setTheme = async (newTheme: string) => {
-        theme.value = newTheme
-        await saveConfig({theme: newTheme})
+        updateConfig({theme: newTheme})
+        await persistConfig()
     }
 
     const fastForward = () => {
@@ -184,8 +196,9 @@ export const useTimerStore = defineStore('timer', () => {
     }
 
     const toggleCompact = async () => {
-        compact.value = !compact.value
-        await saveConfig({compact: compact.value})
+        const newCompact = !compact.value
+        updateConfig({compact: newCompact})
+        await persistConfig()
     }
 
     return {
@@ -205,6 +218,9 @@ export const useTimerStore = defineStore('timer', () => {
         isAllCycleFinished,
         isTimerRunning,
         initConfig,
+        updateConfig,
+        persistConfig,
+        updateAutoStart,
         saveConfig,
         resetConfig,
         startTimer,
