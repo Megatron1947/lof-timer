@@ -6,7 +6,8 @@
             <div class="navbar-start">
                 <!-- 重置 -->
                 <button
-                    class="btn btn-ghost btn-circle"
+                    class="btn btn-ghost btn-circle tooltip tooltip-info tooltip-bottom"
+                    data-tip="重置"
                     v-if="compact"
                     @click="timerStore.resetRuntime">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -19,7 +20,8 @@
                 </button>
                 <!-- 开始/暂停 -->
                 <button
-                    class="btn btn-ghost btn-circle"
+                    class="btn btn-ghost btn-circle tooltip tooltip-info tooltip-bottom"
+                    :data-tip="isTimerRunning ? '暂停' : '开始'"
                     v-if="compact"
                     @click="isTimerRunning ? timerStore.pauseTimer() : timerStore.startTimer()">
                     <template v-if="isTimerRunning">
@@ -43,7 +45,8 @@
                 </button>
                 <!-- 快进 -->
                 <button
-                    class="btn btn-ghost btn-circle"
+                    class="btn btn-ghost btn-circle tooltip tooltip-info tooltip-bottom"
+                    data-tip="快进"
                     v-if="isTimerRunning && devMode"
                     @click="timerStore.fastForward">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
@@ -58,7 +61,10 @@
             <div class="navbar-center"></div>
             <div class="navbar-end">
                 <!-- 切换模式 -->
-                <button class="btn btn-ghost btn-circle" @click="toggleCompact">
+                <button
+                    class="btn btn-ghost btn-circle tooltip tooltip-info tooltip-bottom"
+                    data-tip="切换模式"
+                    @click="toggleCompact">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
                         <g>
                             <path
@@ -68,7 +74,10 @@
                     </svg>
                 </button>
                 <!-- 最小化 -->
-                <button class="btn btn-ghost btn-circle" @click="minimize">
+                <button
+                    class="btn btn-ghost btn-circle tooltip tooltip-info tooltip-bottom"
+                    data-tip="最小化"
+                    @click="minimize">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
                         <g>
                             <path
@@ -78,7 +87,10 @@
                     </svg>
                 </button>
                 <!-- 关闭 -->
-                <button class="btn btn-ghost btn-circle" @click="close">
+                <button
+                    class="btn btn-ghost btn-circle tooltip tooltip-info tooltip-bottom"
+                    data-tip="关闭"
+                    @click="close">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
                         <g>
                             <path

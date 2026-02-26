@@ -1,13 +1,8 @@
 import {defineStore} from 'pinia'
 import {computed, ref} from 'vue'
 import {TimerConfig, TimerStatus} from '@/types/timer'
-import {
-    loadConfig,
-    saveConfig as saveConfigService,
-    setAutoStart,
-    DEFAULT_CONFIG,
-} from '@/services/configService'
-import {useTimerLogic, onAllCycleFinished} from '@/composables/useTimerLogic'
+import {DEFAULT_CONFIG, loadConfig, saveConfig as saveConfigService, setAutoStart} from '@/services/configService'
+import {onAllCycleFinished, useTimerLogic} from '@/composables/useTimerLogic'
 
 export const useTimerStore = defineStore('timer', () => {
     const initialized = ref(false)
@@ -129,11 +124,11 @@ export const useTimerStore = defineStore('timer', () => {
 
     const saveConfig = async (config: Partial<TimerConfig>) => {
         updateConfig(config)
-        
+
         if (config.autoStart !== undefined) {
             await updateAutoStart(config.autoStart)
         }
-        
+
         await persistConfig()
     }
 

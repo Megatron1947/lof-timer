@@ -1,7 +1,10 @@
 <template>
     <div class="mt-18 flex gap-4">
         <!-- 重置 -->
-        <button class="btn btn-ghost btn-circle w-18 h-18" @click="timerStore.resetRuntime">
+        <button
+            class="btn btn-ghost btn-circle w-18 h-18 tooltip tooltip-info"
+            data-tip="重置"
+            @click="timerStore.resetRuntime">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <g>
                     <path
@@ -13,7 +16,8 @@
         <!-- 暂停 -->
         <button
             v-if="isTimerRunning"
-            class="btn btn-ghost btn-circle w-18 h-18"
+            class="btn btn-ghost btn-circle w-18 h-18 tooltip tooltip-info"
+            data-tip="暂停"
             @click="timerStore.pauseTimer">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <g>
@@ -26,7 +30,8 @@
         <!-- 开始 -->
         <button
             v-else
-            class="btn btn-ghost btn-circle w-18 h-18"
+            class="btn btn-ghost btn-circle w-18 h-18 tooltip tooltip-info"
+            data-tip="开始"
             @click="timerStore.startTimer">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
                 <g>
@@ -37,10 +42,12 @@
             </svg>
         </button>
         <!-- 设置 -->
-        <label for="drawer" class="drawer-button btn btn-ghost btn-circle w-18 h-18 scale-95">
+        <label
+            for="drawer"
+            class="drawer-button btn btn-ghost btn-circle w-18 h-18 scale-95 tooltip tooltip-info"
+            data-tip="设置">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink"
                 viewBox="0 0 32 32">
                 <g fill="none">
                     <path

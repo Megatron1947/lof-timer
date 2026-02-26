@@ -8,6 +8,7 @@
 ## [1.0.0] - 2026-02-25
 
 ### 新增
+
 - lof-timer 首次发布
 - 灵活的时间设置: 支持自定义工作时间和休息时间
 - 循环模式: 可设置工作+休息的循环次数
@@ -22,6 +23,7 @@
 - 跨平台支持: 可在 Windows, macOS 和 Linux 上运行
 
 ### 技术细节
+
 - 前端: Vue 3 + TypeScript + Vite + Tailwind CSS + DaisyUI + Pinia
 - 后端: Rust + Tauri 2.x
 - 数据存储: Tauri Plugin Store
