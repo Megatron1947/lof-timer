@@ -23,9 +23,9 @@
         <div v-else-if="compact" class="flex items-center justify-center h-full pb-3">
             <Countdown />
         </div>
-        <div v-else class="drawer drawer-end">
+        <div v-else class="drawer drawer-end h-screen">
             <input id="drawer" type="checkbox" class="drawer-toggle" />
-            <div class="drawer-content flex flex-col items-center justify-center bg-base-100">
+            <div class="drawer-content flex flex-col items-center justify-center bg-base-100 h-screen">
                 <!-- 状态文字 -->
                 <div class="text-base-content/80 text-3xl font-medium my-18 text-center">
                     {{ status }}
@@ -50,7 +50,7 @@
                 <!-- 底部按钮 -->
                 <Buttons />
             </div>
-            <div class="drawer-side mt-12 z-20">
+            <div class="drawer-side mt-12 z-20 h-[calc(100vh-3rem)] overflow-hidden">
                 <label for="drawer" aria-label="close sidebar" class="drawer-overlay"></label>
                 <Settings />
             </div>

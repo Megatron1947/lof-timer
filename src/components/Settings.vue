@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-base-200 w-80 p-6 min-h-screen">
+    <div class="bg-base-200 w-80 p-6 h-full">
         <div>
             <h2 class="text-xl font-bold mb-6 text-primary transition-all duration-300">
                 设置
