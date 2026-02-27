@@ -25,7 +25,7 @@
         </div>
         <div v-else class="drawer drawer-end">
             <input id="drawer" type="checkbox" class="drawer-toggle" />
-            <div class="drawer-content flex flex-col items-center justify-center">
+            <div class="drawer-content flex flex-col items-center justify-center bg-base-100">
                 <!-- 状态文字 -->
                 <div class="text-base-content/80 text-3xl font-medium my-18 text-center">
                     {{ status }}
