@@ -1,4 +1,4 @@
-# 🍅 lof-timer
+# <img src="src-tauri/icons/icon.png" width="32" height="32" alt="lof-timer"> lof-timer
 
 一个基于 Tauri 开发的番茄时钟小工具, 帮助你保持专注, 提高工作效率. (暂时只提供 Windows 版本)
 
@@ -15,6 +15,17 @@
 - 📝 窗口标题: 动态显示当前状态和剩余时间
 - 🎨 现代化界面: 无边框透明窗口设计, 美观简洁
 - 🖥️ 平台支持: 基于 Tauri 2.x, 暂时只提供 Windows 版本
+
+## 应用预览
+
+### 主界面
+![主界面](screenshots/main.png)
+
+### 设置面板
+![设置面板](screenshots/settings.png)
+
+### 精简模式(背景透明)
+![精简模式](screenshots/compact.png)
 
 ## 技术栈
 
