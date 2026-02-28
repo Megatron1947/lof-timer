@@ -57,7 +57,7 @@
     pnpm run dev
 
     # 启动前端+后端 (完整应用)
-    pnpm run tauri
+    pnpm run tauri:dev
     ```
 
 4. 构建生产版本
