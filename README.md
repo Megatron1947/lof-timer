@@ -24,7 +24,7 @@
 ### 设置面板
 ![设置面板](screenshots/settings.png)
 
-### 精简模式(背景透明)
+### 精简模式
 ![精简模式](screenshots/compact.png)
 
 ## 技术栈
