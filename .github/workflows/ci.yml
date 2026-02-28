@@ -101,6 +101,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build app
+        shell: bash
         run: |
           if [ "${{ matrix.platform }}" = "ubuntu-latest" ]; then
             xvfb-run -a pnpm run tauri build --target ${{ matrix.target }}
