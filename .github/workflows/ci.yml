@@ -81,6 +81,9 @@ jobs:
 
       - name: Build app
         uses: tauri-apps/tauri-action@v0
+        with:
+          tagName: ${{ github.ref_name }}
+          releaseName: lof-timer ${{ github.ref_name }}
         env:
           NODE_OPTIONS: "--max_old_space_size=4096"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
