@@ -48,12 +48,12 @@ pub fn run() {
                 })
                 .show_menu_on_left_click(false)
                 // 托盘图标事件监听
-                .on_tray_icon_event(|tray, event| match event {
-                    // 左键双击时展示主界面
-                    TrayIconEvent::DoubleClick {
+                .on_tray_icon_event(|tray, event| {
+                    if let TrayIconEvent::DoubleClick {
                         button: MouseButton::Left,
                         ..
-                    } => {
+                    } = event
+                    {
                         let app = tray.app_handle();
                         if let Some(window) = app.get_webview_window("main") {
                             let _ = window.unminimize();
@@ -61,7 +61,6 @@ pub fn run() {
                             let _ = window.set_focus();
                         }
                     }
-                    _ => {}
                 })
                 .icon(app.default_window_icon().unwrap().clone())
                 .build(app)?;
