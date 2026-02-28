@@ -89,4 +89,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: lof-timer-windows
-          path: src-tauri/target/x86_64-pc-windows-msvc/release/bundle/*/*
+          path: src-tauri/target/release/bundle/*/*
