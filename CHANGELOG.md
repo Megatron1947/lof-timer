@@ -5,6 +5,12 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/),
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.0.1] - 2026-03-02
+
+### 修复
+
+- 修复窗口最小化恢复后navbar仍处于hover状态的问题
+
 ## [1.0.0] - 2026-02-25
 
 ### 新增
@@ -32,4 +38,5 @@
 - 单例模式: Tauri Plugin Single Instance
 - 自动启动: Tauri Plugin Autostart
 
+[1.0.1]: https://gitee.com/m19/lof-timer/releases/tag/v1.0.1
 [1.0.0]: https://gitee.com/m19/lof-timer/releases/tag/v1.0.0

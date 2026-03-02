@@ -1,8 +1,12 @@
 <template>
-    <div class="absolute top-0 left-0 right-0 h-16 group z-30">
+    <div class="absolute top-0 left-0 right-0 h-16 group z-30" @mouseenter="hovered = true" @mouseleave="hovered = false">
         <div
-            class="navbar min-h-10 max-h-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            :class="compact ? 'pt-2 group-hover:bg-base-300/40 backdrop-blur-sm' : 'pt-5'">
+            class="navbar min-h-10 max-h-10 transition-opacity duration-300"
+            :class="[
+                compact ? 'pt-2 backdrop-blur-sm' : 'pt-5',
+                hovered ? 'opacity-100' : 'opacity-0',
+                hovered && compact ? 'bg-base-300/40' : ''
+            ]">
             <div class="navbar-start">
                 <!-- 重置 -->
                 <button
@@ -105,6 +109,7 @@
 </template>
 
 <script setup lang="ts">
+import {ref} from 'vue'
 import {useTimerStore} from '@/stores/timerStore.ts'
 import {storeToRefs} from 'pinia'
 import {Window} from '@tauri-apps/api/window'
@@ -115,7 +120,10 @@ const {isTimerRunning, compact} = storeToRefs(timerStore)
 const devMode = import.meta.env.DEV
 const window = new Window('main')
 
+const hovered = ref(false)
+
 const minimize = async () => {
+    hovered.value = false
     await window.minimize()
 }
 
