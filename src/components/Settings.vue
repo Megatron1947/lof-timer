@@ -74,6 +74,17 @@
                 class="toggle toggle-primary toggle-xl transition-all duration-300"
                 @change="handleAutoStartChange" />
         </div>
+        <!-- 提示音 -->
+        <div class="mb-6">
+            <div class="flex justify-between items-center mb-2">
+                <label class="text-sm font-medium">提示音</label>
+            </div>
+            <input
+                type="checkbox"
+                :checked="sound"
+                class="toggle toggle-primary toggle-xl transition-all duration-300"
+                @change="handleSoundChange" />
+        </div>
         <!-- 重置按钮 -->
         <div class="mt-8">
             <button
@@ -91,7 +102,7 @@ import {onMounted, ref, watch} from 'vue'
 import {useDebounceFn} from '@vueuse/core'
 
 const timerStore = useTimerStore()
-const {focusTime, breakTime, totalCycles, theme, autoStart, compact} = storeToRefs(timerStore)
+const {focusTime, breakTime, totalCycles, theme, autoStart, compact, sound} = storeToRefs(timerStore)
 const resetConfig = timerStore.resetConfig
 const updateConfig = timerStore.updateConfig
 const persistConfig = timerStore.persistConfig
@@ -128,6 +139,12 @@ watch([focusTime, breakTime, totalCycles, theme, compact], () => {
 const handleAutoStartChange = async (event: Event) => {
     const target = event.target as HTMLInputElement
     await updateAutoStart(target.checked)
+    await persistConfig()
+}
+
+const handleSoundChange = async (event: Event) => {
+    const target = event.target as HTMLInputElement
+    updateConfig({sound: target.checked})
     await persistConfig()
 }
 

@@ -20,4 +20,6 @@ export interface TimerConfig {
     compact: boolean
     // 自动启动
     autoStart: boolean
+    // 提示音
+    sound: boolean
 }

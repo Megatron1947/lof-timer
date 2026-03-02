@@ -12,6 +12,7 @@ export const useTimerStore = defineStore('timer', () => {
     const theme = ref(DEFAULT_CONFIG.theme)
     const compact = ref(false)
     const autoStart = ref(false)
+    const sound = ref(DEFAULT_CONFIG.sound)
 
     const status = ref<TimerStatus>(TimerStatus.READY)
     const previousStatus = ref<TimerStatus | null>(null)
@@ -45,7 +46,8 @@ export const useTimerStore = defineStore('timer', () => {
         currentCycle,
         isTimerRunning,
         isAllCycleFinished,
-        onAllCycleFinishedCallback: onAllCycleFinished,
+        sound,
+        onAllCycleFinishedCallback: () => onAllCycleFinished(sound),
     })
 
     const initConfig = async () => {
@@ -56,6 +58,7 @@ export const useTimerStore = defineStore('timer', () => {
         theme.value = config.theme
         compact.value = config.compact
         autoStart.value = config.autoStart
+        sound.value = config.sound
         initialized.value = true
     }
 
@@ -111,6 +114,7 @@ export const useTimerStore = defineStore('timer', () => {
                 totalCycles: totalCycles.value,
                 theme: theme.value,
                 compact: compact.value,
+                sound: sound.value,
             })
         } catch (e) {
             console.error('🍅 保存番茄时钟配置失败: ', e)
@@ -203,6 +207,7 @@ export const useTimerStore = defineStore('timer', () => {
         totalCycles,
         theme,
         autoStart,
+        sound,
         status,
         previousStatus,
         currentCycle,

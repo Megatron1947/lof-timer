@@ -11,6 +11,7 @@ export const DEFAULT_CONFIG: Readonly<TimerConfig> = {
     theme: 'light',
     compact: false,
     autoStart: false,
+    sound: true,
 }
 
 export const getStore = async (): Promise<Store> => {
@@ -41,6 +42,7 @@ export const loadConfig = async (): Promise<TimerConfig> => {
                 theme: parsed.theme || DEFAULT_CONFIG.theme,
                 compact: parsed.compact || false,
                 autoStart: autoStartEnabled || false,
+                sound: parsed.sound ?? DEFAULT_CONFIG.sound,
             }
         }
         return {...DEFAULT_CONFIG, autoStart: autoStartEnabled || false}
