@@ -1,9 +1,10 @@
 <template>
     <div class="bg-base-200 w-80 p-6 h-full">
-        <div>
-            <h2 class="text-xl font-bold mb-6 text-primary transition-all duration-300">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-xl font-bold text-primary transition-all duration-300">
                 设置
             </h2>
+            <span class="text-xs text-muted">v{{ version }}</span>
         </div>
         <!-- 专注时间设置 -->
         <div class="mb-6">
@@ -100,6 +101,9 @@ import {useTimerStore} from '@/stores/timerStore.ts'
 import {storeToRefs} from 'pinia'
 import {onMounted, ref, watch} from 'vue'
 import {useDebounceFn} from '@vueuse/core'
+import packageJson from '../../package.json'
+
+const version = packageJson.version
 
 const timerStore = useTimerStore()
 const {focusTime, breakTime, totalCycles, theme, autoStart, compact, sound} = storeToRefs(timerStore)
